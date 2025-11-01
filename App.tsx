@@ -10,7 +10,7 @@ import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import { getTestimonials } from './constants';
 import type { ItineraryDay, Testimonial } from './types';
-import { generateItinerary } from './services/geminiService';
+import { generateItinerary } from './services/openaiService';
 import { useTranslation } from './contexts/LanguageContext';
 
 const TestimonialsSection: React.FC<{ testimonials: Testimonial[] }> = ({ testimonials }) => {
@@ -51,7 +51,7 @@ const App: React.FC = () => {
     const [itineraryError, setItineraryError] = useState<string | null>(null);
 
     const testimonials = getTestimonials(t);
-    const hasGeminiKey = !!import.meta.env.VITE_GEMINI_API_KEY;
+    const hasOpenAIKey = !!import.meta.env.VITE_OPENAI_API_KEY;
 
     const handleNavClick = (sectionId: string) => {
         const scrollToAction = () => {
@@ -95,7 +95,7 @@ const App: React.FC = () => {
     }, []);
 
     const handleOpenBookingModal = () => {
-        if (!hasGeminiKey) {
+        if (!hasOpenAIKey) {
             setItineraryError(t('errors.apiKeyMissing') || 'API Key is not configured');
             return;
         }

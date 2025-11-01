@@ -93,9 +93,9 @@ const getSupabaseClient = (): SupabaseClient<Database> | null => {
     if (isDemoMode === true) {
         return null;
     }
-    
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
         if (!window.sessionStorage.getItem('supabase-demo-mode-logged')) {
@@ -105,7 +105,7 @@ const getSupabaseClient = (): SupabaseClient<Database> | null => {
         isDemoMode = true;
         return null;
     }
-    
+
     isDemoMode = false;
     supabase = createClient<Database>(supabaseUrl, supabaseKey);
     return supabase;
