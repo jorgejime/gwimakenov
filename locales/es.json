@@ -175,6 +175,7 @@
     "errors": {
         "unknown": "Ocurrió un error desconocido.",
         "invalidDate": "Por favor, selecciona una fecha de llegada válida.",
+        "apiKeyMissing": "La API de generación de itinerarios no está configurada. Por favor, contacta al administrador.",
         "form": {
             "completeDateAndGuests": "Completa la fecha y número de huéspedes.",
             "completePayerInfo": "Por favor, completa los datos de la persona que reserva.",

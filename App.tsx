@@ -41,7 +41,7 @@ const TestimonialsSection: React.FC<{ testimonials: Testimonial[] }> = ({ testim
 
 const App: React.FC = () => {
     const { t, language } = useTranslation();
-    const [view, setView] = useState('home'); // 'home' | 'manage' | 'admin'
+    const [view, setView] = useState('home');
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
     const [checkIn, setCheckIn] = useState('');
@@ -51,6 +51,7 @@ const App: React.FC = () => {
     const [itineraryError, setItineraryError] = useState<string | null>(null);
 
     const testimonials = getTestimonials(t);
+    const hasGeminiKey = !!import.meta.env.VITE_GEMINI_API_KEY;
 
     const handleNavClick = (sectionId: string) => {
         const scrollToAction = () => {
@@ -94,6 +95,10 @@ const App: React.FC = () => {
     }, []);
 
     const handleOpenBookingModal = () => {
+        if (!hasGeminiKey) {
+            setItineraryError(t('errors.apiKeyMissing') || 'API Key is not configured');
+            return;
+        }
         setIsBookingModalOpen(true);
     };
 

@@ -24,20 +24,26 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [language, setLanguageState] = useState<Language>('es');
     const [translationsData, setTranslationsData] = useState<{ [key in Language]?: Translations }>({});
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        // Asynchronously fetch translation files. This is more cross-browser compatible
-        // than trying to import JSON modules directly, which has inconsistent support.
         const fetchTranslations = async () => {
             try {
-                // The paths are relative to the root index.html file.
-                const esPromise = fetch('./locales/es.json').then(res => res.json());
-                const enPromise = fetch('./locales/en.json').then(res => res.json());
+                const esPromise = fetch('./locales/es.json').then(res => {
+                    if (!res.ok) throw new Error(`Failed to fetch Spanish translations: ${res.status}`);
+                    return res.json();
+                });
+                const enPromise = fetch('./locales/en.json').then(res => {
+                    if (!res.ok) throw new Error(`Failed to fetch English translations: ${res.status}`);
+                    return res.json();
+                });
 
                 const [es, en] = await Promise.all([esPromise, enPromise]);
                 setTranslationsData({ es, en });
+                setIsLoaded(true);
             } catch (err) {
                 console.error("Failed to fetch translation files:", err);
+                setIsLoaded(true);
             }
         };
         fetchTranslations();

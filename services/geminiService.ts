@@ -2,7 +2,12 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { ItineraryDay } from '../types';
 import { TRIP_DURATION_NIGHTS } from '../constants';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+
+let ai: any = null;
+if (apiKey) {
+  ai = new GoogleGenAI({ apiKey });
+}
 
 const itinerarySchema = {
   type: Type.ARRAY,
@@ -46,6 +51,12 @@ const itinerarySchema = {
 
 
 export const generateItinerary = async (startDate: string, lang: 'es' | 'en'): Promise<ItineraryDay[]> => {
+    if (!ai) {
+        throw new Error(lang === 'es'
+            ? 'La API de Gemini no está configurada. Por favor, contacta al administrador.'
+            : 'The Gemini API is not configured. Please contact the administrator.');
+    }
+
     const checkInDate = new Date(startDate);
     checkInDate.setDate(checkInDate.getDate() + TRIP_DURATION_NIGHTS);
     const endDate = checkInDate.toISOString().split('T')[0];
