@@ -18,10 +18,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackToHome })
         setError(null);
         setIsLoading(true);
 
-        // Simulate a short delay for better UX
         setTimeout(() => {
-            // Use environment variable if available, otherwise fallback to 'admin' for testing
-            if (password === (process.env.ADMIN_PASSWORD || 'admin')) {
+            const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || '@Gwimake2025';
+            if (password === adminPassword) {
                 onLoginSuccess();
             } else {
                 setError(t('admin.login.error'));
