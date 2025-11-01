@@ -1,0 +1,10 @@
+{
+  "environment_variables": {
+    "SUPABASE_URL": "https://vzsnxdfknirzrxqmvseu.supabase.co",
+    "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6c254ZGZrbmlyenJ4cW12c2V1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NDc1NzYsImV4cCI6MjA2ODUyMzU3Nn0.gSLgQ0XzE9D6BlcLmj4fbhmw-kGT_ZcFHEh-u2jqtNg",
+    "ADMIN_PASSWORD": "gwikake$@2025"
+  },
+  "requestFramePermissions": [],
+  "name": "",
+  "description": ""
+}

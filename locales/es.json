@@ -1,0 +1,223 @@
+
+{
+    "common": {
+        "close": "Cerrar",
+        "error": "Error",
+        "success": "Éxito"
+    },
+    "header": {
+        "experience": "Experiencia",
+        "gallery": "Galería",
+        "testimonials": "Testimonios",
+        "bookNow": "Reservar ahora"
+    },
+    "hero": {
+        "title": "Vive Gwimake",
+        "subtitle": "Una inmersión con la comunidad Arhuaca en el corazón de la Sierra Nevada de Santa Marta.",
+        "button": "Reserva tu Experiencia"
+    },
+    "experience": {
+        "title": "Una Experiencia Transformadora",
+        "paragraph1": "Sumérgete en el corazón de la Sierra Nevada de Santa Marta y comparte la vida con la comunidad Gwimake. Esta no es una simple visita turística; es una invitación a desconectar del mundo moderno y reconectar con la sabiduría ancestral de la Tierra.",
+        "paragraph2": "Aprende sobre la cosmovisión Arhuaca, participa en sus rituales diarios, comparte sus alimentos y escucha sus historias. Te irás con una perspectiva renovada y un profundo respeto por una cultura que protege el corazón del mundo.",
+        "button": "Iniciar mi Viaje"
+    },
+    "gallery": {
+        "title": "Sigue nuestra historia",
+        "subtitle": "Momentos, relatos y sabiduría compartida desde el corazón del mundo.",
+        "button": "Seguir en Instagram",
+        "posts": [
+            { "alt": "Río con agua cristalina en la Sierra Nevada", "caption": "El agua sagrada que limpia y purifica nuestro espíritu. Un regalo de la madre tierra." },
+            { "alt": "Mujer Arhuaca tejiendo una mochila", "caption": "Tejiendo pensamientos, tejiendo vida. El arte de la mochila Arhuaca." },
+            { "alt": "Niños de la comunidad sonriendo", "caption": "La alegría y el futuro de nuestra comunidad en una sonrisa." },
+            { "alt": "Un Mamo Arhuaco en la naturaleza", "caption": "La sabiduría de nuestros mayores es la guía de nuestro camino." },
+            { "alt": "Cultivos tradicionales en la montaña", "caption": "La tierra nos da el sustento, nosotros le devolvemos nuestro cuidado." },
+            { "alt": "Cascada en la Sierra Nevada", "caption": "El agua sagrada que limpia y purifica nuestro espíritu. Un regalo de la madre tierra." }
+        ]
+    },
+    "testimonials": {
+        "title": "Lo que dicen nuestros visitantes",
+        "subtitle": "Historias de conexión y transformación vividas en el corazón de la Sierra.",
+        "items": [
+            { "quote": "Una experiencia que me cambió la vida. La conexión con la tierra y la sabiduría de la comunidad Gwimake es algo que llevaré siempre conmigo.", "author": "Ana Sofía R.", "location": "Bogotá, Colombia" },
+            { "quote": "La hospitalidad y calidez de la familia anfitriona fue increíble. Aprendí mucho más de lo que esperaba. ¡Totalmente recomendado!", "author": "John Miller", "location": "California, USA" },
+            { "quote": "Desconectarse del mundo para conectar con lo esencial. Gwimake ofrece un espacio de paz, aprendizaje y profunda reflexión. Volveré sin dudarlo.", "author": "Isabella Schmidt", "location": "Berlín, Alemania" }
+        ]
+    },
+    "bookingModal": {
+        "title": "Reserva tu Aventura",
+        "step1Subtitle": "Paso 1: Elige tu fecha y genera tu plan de viaje.",
+        "step2Subtitle": "Paso 2: Confirma los detalles de tu reserva.",
+        "dateLabel": "Elige la fecha de tu salida hacia la Sierra",
+        "returnDate": "Regreso",
+        "stayDuration": "Estancia de {{nights}} noche",
+        "availabilityNotice": "Las fechas se deshabilitan cuando se alcanza la capacidad máxima de {{capacity}} personas. La disponibilidad se actualiza en tiempo real.",
+        "guestsLabel": "Huéspedes (Máx. {{capacity}})",
+        "adults": "Adultos",
+        "children": "Niños",
+        "payerDetails": "Datos de quien reserva",
+        "guestDetails": "Información de los Visitantes (para el seguro)",
+        "guestNumber": "Visitante {{count}}",
+        "priceSummary": {
+            "title": "Resumen de Precio",
+            "accommodation": "Alojamiento ({{nights}} noche)",
+            "transport": "Transporte",
+            "insurance": "Seguro de viaje",
+            "serviceFee": "Tarifa de servicio",
+            "total": "Total"
+        },
+        "itinerary": {
+            "title": "Tu itinerario",
+            "ctaTitle": "Crea tu Itinerario",
+            "ctaSubtitle": "Selecciona tu fecha de salida y haz clic en \"Generar Itinerario\" para que la IA cree un plan de viaje único para ti."
+        },
+        "success": {
+            "title": "¡Solicitud Registrada!",
+            "subtitle": "Tu solicitud ha sido guardada en nuestro sistema y hemos abierto WhatsApp para que envíes el mensaje. Nos pondremos en contacto contigo para confirmar los últimos detalles.",
+            "emailButton": "Enviar copia por Email",
+            "finishButton": "Finalizar",
+            "emailSubject": "Confirmación de Reserva - Aventura Gwimake"
+        },
+        "placeholders": {
+            "fullName": "Nombre completo",
+            "whatsapp": "WhatsApp (ej. 3101234567)",
+            "email": "Correo electrónico",
+            "idType": "Tipo de ID",
+            "idNumber": "Número de identificación"
+        }
+    },
+    "buttons": {
+        "generating": "Generando...",
+        "generateItinerary": "Generar Itinerario",
+        "next": "Siguiente",
+        "back": "Atrás",
+        "processing": "Procesando...",
+        "confirmBooking": "Confirmar Reserva por WhatsApp",
+        "searching": "Buscando...",
+        "findBooking": "Buscar Reserva",
+        "cancelling": "Cancelando...",
+        "cancelBooking": "Cancelar Reserva"
+    },
+    "footer": {
+        "manageBooking": "Gestionar mi Reserva",
+        "admin": "Admin",
+        "location": "Sierra Nevada de Santa Marta, Colombia."
+    },
+    "manageBooking": {
+        "backToHome": "Volver a la página principal",
+        "title": "Gestionar mi Reserva",
+        "subtitle": "Introduce el ID de tu reserva para ver sus detalles o solicitar una cancelación.",
+        "idLabel": "ID de Reserva (UUID)",
+        "idPlaceholder": "Ej: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+        "detailsTitle": "Detalles de la Reserva",
+        "details": {
+            "id": "ID de Reserva",
+            "departureDate": "Fecha de Salida",
+            "totalGuests": "Total Huéspedes",
+            "status": "Estado"
+        },
+        "cancelConfirmation": "¿Estás seguro de que quieres cancelar esta reserva? Esta acción no se puede deshacer.",
+        "cancelNotice": "La cancelación liberará la fecha para otros viajeros. Esta acción es irreversible.",
+        "alreadyCancelled": "Esta reserva ya ha sido cancelada y no se puede modificar.",
+        "errors": {
+            "invalidId": "Por favor, introduce un ID de reserva válido.",
+            "notFound": "No se encontró ninguna reserva con ese ID. Por favor, verifica el código e inténtalo de nuevo."
+        },
+        "success": {
+            "cancelled": "¡Tu reserva ha sido cancelada con éxito! La fecha ahora está disponible para otros viajeros."
+        }
+    },
+    "bookingStatus": {
+        "pending": "Pendiente",
+        "confirmed": "Confirmada",
+        "cancelled": "Cancelada",
+        "all": "Todas"
+    },
+    "idTypes": {
+        "citizenshipCard": "Cédula de Ciudadanía",
+        "passport": "Pasaporte",
+        "foreignersCard": "Cédula de Extranjería",
+        "identityCard": "Tarjeta de Identidad",
+        "other": "Otro"
+    },
+    "admin": {
+        "login": {
+            "title": "Acceso de Administrador",
+            "subtitle": "Introduce la contraseña para gestionar las reservas.",
+            "passwordLabel": "Contraseña",
+            "passwordPlaceholder": "••••••••",
+            "button": "Iniciar Sesión",
+            "error": "Contraseña incorrecta. Inténtalo de nuevo."
+        },
+        "dashboard": {
+            "title": "Panel de Reservas",
+            "logout": "Cerrar Sesión",
+            "filterByStatus": "Filtrar por estado:",
+            "sortByDate": "Ordenar por fecha:",
+            "newestFirst": "Más nuevas primero",
+            "oldestFirst": "Más antiguas primero",
+            "noBookingsFound": "No se encontraron reservas que coincidan con los filtros actuales.",
+            "loading": "Cargando reservas...",
+            "bookingId": "ID Reserva",
+            "payer": "Solicitante",
+            "departureDate": "Fecha de Salida",
+            "guests": "Huéspedes",
+            "status": "Estado",
+            "actions": {
+                "confirm": "Confirmar",
+                "setPending": "Poner Pendiente",
+                "cancel": "Cancelar",
+                "updating": "Actualizando..."
+            },
+            "successUpdate": "Estado de la reserva actualizado a {{status}}."
+        }
+    },
+    "errors": {
+        "unknown": "Ocurrió un error desconocido.",
+        "invalidDate": "Por favor, selecciona una fecha de llegada válida.",
+        "form": {
+            "completeDateAndGuests": "Completa la fecha y número de huéspedes.",
+            "completePayerInfo": "Por favor, completa los datos de la persona que reserva.",
+            "completeGuestInfo": "Completa la información de identificación para todos los visitantes.",
+            "generateItinerary": "Por favor, genera un itinerario antes de confirmar."
+        },
+        "supabase": {
+            "SUPABASE_CLIENT_NOT_INITIALIZED": "La configuración del sistema de reservas no está disponible. Por favor, contacta al soporte.",
+            "FETCH_CAPACITY_FAILED": "No se pudo leer la disponibilidad de reservas desde la base de datos.",
+            "UNIQUE_VIOLATION": "Lo sentimos, esta fecha acaba de ser reservada por otra persona. Por favor, elige una fecha diferente.",
+            "CREATE_BOOKING_FAILED": "No pudimos procesar tu reserva en este momento. Inténtalo de nuevo más tarde.",
+            "CREATE_BOOKING_FAILED_NO_ID": "No se pudo crear la reserva, no se recibió ID.",
+            "FETCH_BY_ID_FAILED": "Ocurrió un error al buscar tu reserva.",
+            "CANCEL_BOOKING_FAILED": "No se pudo cancelar la reserva. Por favor, intenta de nuevo.",
+            "CANCEL_BOOKING_NOT_FOUND": "No se pudo encontrar la reserva para cancelar.",
+            "FETCH_ALL_BOOKINGS_FAILED": "No se pudieron cargar las reservas del panel de administración.",
+            "UPDATE_STATUS_FAILED": "No se pudo actualizar el estado de la reserva.",
+            "UPDATE_STATUS_FAILED_NOT_FOUND": "No se encontró la reserva para actualizar."
+        }
+    },
+    "whatsapp": {
+        "greeting": "¡Hola, Gwimake! 👋",
+        "intro": "Acabo de registrar una solicitud de reserva con el ID: *{{id}}*.",
+        "payerDetails": "👤 DATOS DE QUIEN RESERVA",
+        "name": "Nombre",
+        "email": "Correo",
+        "document": "Documento",
+        "tripDetails": "📅 DETALLES DEL VIAJE",
+        "departure": "Salida hacia la Sierra",
+        "return": "Regreso a la ciudad",
+        "nights": "Noches: {{nights}}",
+        "guestsHeader": "👨‍👩‍👧‍👦 HUÉSPEDES ({{count}} en total)",
+        "guest": "Huésped {{count}}",
+        "adults": "Adultos",
+        "children": "Niños",
+        "itineraryHeader": "📋 ITINERARIO SUGERIDO",
+        "itineraryNotGenerated": "Itinerario no generado.",
+        "pricesHeader": "💰 PRECIOS",
+        "priceSummary": "Resumen de Precio",
+        "accommodation": "Alojamiento ({{nights}} noche)",
+        "transport": "Transporte",
+        "insurance": "Seguro de viaje",
+        "serviceFee": "Tarifa de servicio",
+        "farewell": "¡Espero su confirmación para el pago! Gracias."
+    }
+}

@@ -1,0 +1,222 @@
+{
+    "common": {
+        "close": "Close",
+        "error": "Error",
+        "success": "Success"
+    },
+    "header": {
+        "experience": "Experience",
+        "gallery": "Gallery",
+        "testimonials": "Testimonials",
+        "bookNow": "Book now"
+    },
+    "hero": {
+        "title": "Experience Gwimake",
+        "subtitle": "An immersion with the Arhuaca community in the heart of the Sierra Nevada de Santa Marta.",
+        "button": "Book Your Experience"
+    },
+    "experience": {
+        "title": "A Transformative Experience",
+        "paragraph1": "Immerse yourself in the heart of the Sierra Nevada de Santa Marta and share life with the Gwimake community. This is not just a tourist visit; it's an invitation to disconnect from the modern world and reconnect with the ancestral wisdom of the Earth.",
+        "paragraph2": "Learn about the Arhuaco worldview, participate in their daily rituals, share their food, and listen to their stories. You will leave with a renewed perspective and a deep respect for a culture that protects the heart of the world.",
+        "button": "Start my Journey"
+    },
+    "gallery": {
+        "title": "Follow our story",
+        "subtitle": "Moments, stories, and wisdom shared from the heart of the world.",
+        "button": "Follow on Instagram",
+        "posts": [
+            { "alt": "River with crystal clear water in the Sierra Nevada", "caption": "The sacred water that cleanses and purifies our spirit. A gift from Mother Earth." },
+            { "alt": "Arhuaca woman weaving a mochila bag", "caption": "Weaving thoughts, weaving life. The art of the Arhuaca mochila." },
+            { "alt": "Children of the community smiling", "caption": "The joy and future of our community in a smile." },
+            { "alt": "An Arhuaco Mamo in nature", "caption": "The wisdom of our elders is the guide for our path." },
+            { "alt": "Traditional crops on the mountain", "caption": "The land gives us sustenance, we give it our care in return." },
+            { "alt": "Waterfall in the Sierra Nevada", "caption": "The sacred water that cleanses and purifies our spirit. A gift from Mother Earth." }
+        ]
+    },
+    "testimonials": {
+        "title": "What Our Visitors Say",
+        "subtitle": "Stories of connection and transformation experienced in the heart of the Sierra.",
+        "items": [
+            { "quote": "A life-changing experience. The connection with the land and the wisdom of the Gwimake community is something I will carry with me forever.", "author": "Ana Sofía R.", "location": "Bogotá, Colombia" },
+            { "quote": "The hospitality and warmth of the host family were incredible. I learned so much more than I expected. Highly recommended!", "author": "John Miller", "location": "California, USA" },
+            { "quote": "Disconnecting from the world to connect with the essential. Gwimake offers a space of peace, learning, and deep reflection. I will return without a doubt.", "author": "Isabella Schmidt", "location": "Berlin, Germany" }
+        ]
+    },
+    "bookingModal": {
+        "title": "Book Your Adventure",
+        "step1Subtitle": "Step 1: Choose your date and generate your travel plan.",
+        "step2Subtitle": "Step 2: Confirm your booking details.",
+        "dateLabel": "Choose your departure date to the Sierra",
+        "returnDate": "Return",
+        "stayDuration": "{{nights}}-night stay",
+        "availabilityNotice": "Dates are disabled when the maximum capacity of {{capacity}} people is reached. Availability is updated in real-time.",
+        "guestsLabel": "Guests (Max {{capacity}})",
+        "adults": "Adults",
+        "children": "Children",
+        "payerDetails": "Payer's Information",
+        "guestDetails": "Visitor Information (for insurance)",
+        "guestNumber": "Visitor {{count}}",
+        "priceSummary": {
+            "title": "Price Summary",
+            "accommodation": "Accommodation ({{nights}} night)",
+            "transport": "Transportation",
+            "insurance": "Travel Insurance",
+            "serviceFee": "Service Fee",
+            "total": "Total"
+        },
+        "itinerary": {
+            "title": "Your Itinerary",
+            "ctaTitle": "Create Your Itinerary",
+            "ctaSubtitle": "Select your departure date and click \"Generate Itinerary\" to have the AI create a unique travel plan for you."
+        },
+        "success": {
+            "title": "Request Registered!",
+            "subtitle": "Your request has been saved in our system and we have opened WhatsApp for you to send the message. We will contact you to confirm the final details.",
+            "emailButton": "Send copy via Email",
+            "finishButton": "Finish",
+            "emailSubject": "Booking Confirmation - Gwimake Adventure"
+        },
+        "placeholders": {
+            "fullName": "Full name",
+            "whatsapp": "WhatsApp (e.g., 3101234567)",
+            "email": "Email address",
+            "idType": "ID Type",
+            "idNumber": "Identification number"
+        }
+    },
+    "buttons": {
+        "generating": "Generating...",
+        "generateItinerary": "Generate Itinerary",
+        "next": "Next",
+        "back": "Back",
+        "processing": "Processing...",
+        "confirmBooking": "Confirm Booking via WhatsApp",
+        "searching": "Searching...",
+        "findBooking": "Find Booking",
+        "cancelling": "Cancelling...",
+        "cancelBooking": "Cancel Booking"
+    },
+    "footer": {
+        "manageBooking": "Manage my Booking",
+        "admin": "Admin",
+        "location": "Sierra Nevada de Santa Marta, Colombia."
+    },
+    "manageBooking": {
+        "backToHome": "Back to homepage",
+        "title": "Manage my Booking",
+        "subtitle": "Enter your booking ID to view its details or request a cancellation.",
+        "idLabel": "Booking ID (UUID)",
+        "idPlaceholder": "E.g.: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+        "detailsTitle": "Booking Details",
+        "details": {
+            "id": "Booking ID",
+            "departureDate": "Departure Date",
+            "totalGuests": "Total Guests",
+            "status": "Status"
+        },
+        "cancelConfirmation": "Are you sure you want to cancel this booking? This action cannot be undone.",
+        "cancelNotice": "Cancellation will release the date for other travelers. This action is irreversible.",
+        "alreadyCancelled": "This booking has already been cancelled and cannot be modified.",
+        "errors": {
+            "invalidId": "Please enter a valid booking ID.",
+            "notFound": "No booking found with that ID. Please check the code and try again."
+        },
+        "success": {
+            "cancelled": "Your booking has been successfully cancelled! The date is now available for other travelers."
+        }
+    },
+    "bookingStatus": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "cancelled": "Cancelled",
+        "all": "All"
+    },
+    "idTypes": {
+        "citizenshipCard": "Citizenship Card",
+        "passport": "Passport",
+        "foreignersCard": "Foreigner's ID",
+        "identityCard": "Identity Card",
+        "other": "Other"
+    },
+     "admin": {
+        "login": {
+            "title": "Administrator Access",
+            "subtitle": "Enter the password to manage bookings.",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "••••••••",
+            "button": "Login",
+            "error": "Incorrect password. Please try again."
+        },
+        "dashboard": {
+            "title": "Bookings Dashboard",
+            "logout": "Logout",
+            "filterByStatus": "Filter by status:",
+            "sortByDate": "Sort by date:",
+            "newestFirst": "Newest First",
+            "oldestFirst": "Oldest First",
+            "noBookingsFound": "No bookings found matching the current filters.",
+            "loading": "Loading bookings...",
+            "bookingId": "Booking ID",
+            "payer": "Payer",
+            "departureDate": "Departure Date",
+            "guests": "Guests",
+            "status": "Status",
+            "actions": {
+                "confirm": "Confirm",
+                "setPending": "Set to Pending",
+                "cancel": "Cancel",
+                "updating": "Updating..."
+            },
+            "successUpdate": "Booking status updated to {{status}}."
+        }
+    },
+    "errors": {
+        "unknown": "An unknown error occurred.",
+        "invalidDate": "Please select a valid arrival date.",
+        "form": {
+            "completeDateAndGuests": "Please complete the date and number of guests.",
+            "completePayerInfo": "Please complete the payer's information.",
+            "completeGuestInfo": "Please complete the identification information for all visitors.",
+            "generateItinerary": "Please generate an itinerary before confirming."
+        },
+        "supabase": {
+            "SUPABASE_CLIENT_NOT_INITIALIZED": "The booking system configuration is unavailable. Please contact support.",
+            "FETCH_CAPACITY_FAILED": "Could not read booking availability from the database.",
+            "UNIQUE_VIOLATION": "We're sorry, this date has just been booked by someone else. Please choose a different date.",
+            "CREATE_BOOKING_FAILED": "We could not process your booking at this time. Please try again later.",
+            "CREATE_BOOKING_FAILED_NO_ID": "Could not create booking, no ID was received.",
+            "FETCH_BY_ID_FAILED": "An error occurred while searching for your booking.",
+            "CANCEL_BOOKING_FAILED": "Could not cancel the booking. Please try again.",
+            "CANCEL_BOOKING_NOT_FOUND": "Could not find the booking to cancel.",
+            "FETCH_ALL_BOOKINGS_FAILED": "Could not load bookings for the admin dashboard.",
+            "UPDATE_STATUS_FAILED": "Could not update booking status.",
+            "UPDATE_STATUS_FAILED_NOT_FOUND": "Could not find the booking to update."
+        }
+    },
+    "whatsapp": {
+        "greeting": "Hello, Gwimake! 👋",
+        "intro": "I have just registered a booking request with the ID: *{{id}}*.",
+        "payerDetails": "👤 PAYER'S DETAILS",
+        "name": "Name",
+        "email": "Email",
+        "document": "Document",
+        "tripDetails": "📅 TRIP DETAILS",
+        "departure": "Departure to the Sierra",
+        "return": "Return to the city",
+        "nights": "Nights: {{nights}}",
+        "guestsHeader": "👨‍👩‍👧‍👦 GUESTS ({{count}} total)",
+        "guest": "Guest {{count}}",
+        "adults": "Adults",
+        "children": "Children",
+        "itineraryHeader": "📋 SUGGESTED ITINERARY",
+        "itineraryNotGenerated": "Itinerary not generated.",
+        "pricesHeader": "💰 PRICES",
+        "priceSummary": "Price Summary",
+        "accommodation": "Accommodation ({{nights}} night)",
+        "transport": "Transportation",
+        "insurance": "Travel Insurance",
+        "serviceFee": "Service Fee",
+        "farewell": "I await your confirmation for payment! Thank you."
+    }
+}
