@@ -116,7 +116,7 @@ Return ONLY valid JSON with the following structure (no markdown, no \`\`\`json)
 
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-5-nano-2025-08-07",
             messages: [
                 { role: "system", content: p.system },
                 { role: "user", content: p.user }
