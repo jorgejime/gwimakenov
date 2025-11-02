@@ -12,6 +12,7 @@ interface LanguageContextType {
     setLanguage: (language: Language) => void;
     t: TFunction;
     translations: Translations;
+    isLoading: boolean;
 }
 
 const getNestedValue = (obj: any, key: string) => {
@@ -24,10 +25,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [language, setLanguageState] = useState<Language>('es');
     const [translationsData, setTranslationsData] = useState<{ [key in Language]?: Translations }>({});
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchTranslations = async () => {
+            setIsLoading(true);
             try {
                 const esPromise = fetch('/locales/es.json').then(res => {
                     if (!res.ok) throw new Error(`Failed to fetch Spanish translations: ${res.status}`);
@@ -40,10 +42,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
                 const [es, en] = await Promise.all([esPromise, enPromise]);
                 setTranslationsData({ es, en });
-                setIsLoaded(true);
+                setIsLoading(false);
             } catch (err) {
                 console.error("Failed to fetch translation files:", err);
-                setIsLoaded(true);
+                setIsLoading(false);
             }
         };
         fetchTranslations();
@@ -90,8 +92,20 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         language,
         setLanguage,
         t,
-        translations: translationsData[language] || {}
-    }), [language, t, translationsData]);
+        translations: translationsData[language] || {},
+        isLoading
+    }), [language, t, translationsData, isLoading]);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-emerald-600 mx-auto mb-4"></div>
+                    <p className="text-slate-600 font-medium">Cargando...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <LanguageContext.Provider value={value}>

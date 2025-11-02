@@ -17,7 +17,7 @@ const formatDate = (dateString: string, locale: string): string => {
 };
 
 const PricingManager: React.FC = () => {
-    const { t, language } = useTranslation();
+    const { t, language, isLoading: translationsLoading } = useTranslation();
     const [pricing, setPricing] = useState<PricingConfig | null>(null);
     const [history, setHistory] = useState<PricingHistory[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -152,10 +152,13 @@ const PricingManager: React.FC = () => {
         return labelMap[fieldName] || fieldName;
     };
 
-    if (isLoading) {
+    if (isLoading || translationsLoading) {
         return (
             <div className="flex justify-center items-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-3"></div>
+                    <p className="text-slate-600">Cargando configuración de precios...</p>
+                </div>
             </div>
         );
     }
