@@ -29,11 +29,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     useEffect(() => {
         const fetchTranslations = async () => {
             try {
-                const esPromise = fetch('./locales/es.json').then(res => {
+                const esPromise = fetch('/locales/es.json').then(res => {
                     if (!res.ok) throw new Error(`Failed to fetch Spanish translations: ${res.status}`);
                     return res.json();
                 });
-                const enPromise = fetch('./locales/en.json').then(res => {
+                const enPromise = fetch('/locales/en.json').then(res => {
                     if (!res.ok) throw new Error(`Failed to fetch English translations: ${res.status}`);
                     return res.json();
                 });
