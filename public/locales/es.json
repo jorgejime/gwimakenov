@@ -104,7 +104,7 @@
     },
     "footer": {
         "manageBooking": "Gestionar mi Reserva",
-        "admin": "Admin",
+        "admin": "Gestor",
         "location": "Sierra Nevada de Santa Marta, Colombia."
     },
     "manageBooking": {
@@ -157,15 +157,15 @@
     },
     "admin": {
         "login": {
-            "title": "Acceso de Administrador",
-            "subtitle": "Introduce la contraseña para gestionar las reservas.",
+            "title": "Acceso de Gestor",
+            "subtitle": "Introduce la contraseña para acceder al panel de gestión.",
             "passwordLabel": "Contraseña",
             "passwordPlaceholder": "••••••••",
             "button": "Iniciar Sesión",
             "error": "Contraseña incorrecta. Inténtalo de nuevo."
         },
         "dashboard": {
-            "title": "Panel de Reservas",
+            "title": "Panel de Gestión",
             "logout": "Cerrar Sesión",
             "tabs": {
                 "bookings": "Reservas",

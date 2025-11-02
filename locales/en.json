@@ -99,7 +99,7 @@
     },
     "footer": {
         "manageBooking": "Manage my Booking",
-        "admin": "Admin",
+        "admin": "Manager",
         "location": "Sierra Nevada de Santa Marta, Colombia."
     },
     "manageBooking": {
@@ -141,15 +141,15 @@
     },
      "admin": {
         "login": {
-            "title": "Administrator Access",
-            "subtitle": "Enter the password to manage bookings.",
+            "title": "Manager Access",
+            "subtitle": "Enter the password to access the management panel.",
             "passwordLabel": "Password",
             "passwordPlaceholder": "••••••••",
             "button": "Login",
             "error": "Incorrect password. Please try again."
         },
         "dashboard": {
-            "title": "Bookings Dashboard",
+            "title": "Management Panel",
             "logout": "Logout",
             "tabs": {
                 "bookings": "Bookings",
