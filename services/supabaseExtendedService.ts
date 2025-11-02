@@ -535,7 +535,8 @@ export const updateGalleryImage = async (
 
   if (error) {
     console.error('Error updating gallery image:', error);
-    throw new Error('UPDATE_GALLERY_IMAGE_FAILED');
+    console.error('Error details:', JSON.stringify(error, null, 2));
+    throw new Error(`UPDATE_GALLERY_IMAGE_FAILED: ${error.message || 'Unknown error'}`);
   }
 
   if (!data) {

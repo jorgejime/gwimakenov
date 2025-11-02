@@ -49,6 +49,8 @@ const GalleryImageManager: React.FC = () => {
       return;
     }
 
+    setError(null);
+
     try {
       const nextPosition = Math.max(...images.map(img => img.order_position), 0) + 1;
       await addGalleryImage(
@@ -67,12 +69,21 @@ const GalleryImageManager: React.FC = () => {
       loadImages();
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Error al agregar imagen:', errorMsg);
       setError(t('admin.galleryImages.errors.addFailed') || 'Error al agregar imagen');
     }
   };
 
   const handleUpdateImage = async () => {
     if (!editingImage) return;
+
+    if (!formData.url || !formData.title || !formData.alt_text || !formData.caption) {
+      setError(t('admin.galleryImages.errors.emptyFields') || 'Completa todos los campos');
+      return;
+    }
+
+    setError(null);
 
     try {
       await updateGalleryImage(editingImage.id, {
@@ -89,17 +100,22 @@ const GalleryImageManager: React.FC = () => {
       loadImages();
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Error al actualizar imagen:', errorMsg);
       setError(t('admin.galleryImages.errors.updateFailed') || 'Error al actualizar imagen');
     }
   };
 
   const handleToggleActive = async (image: GalleryImage) => {
+    setError(null);
     try {
       await updateGalleryImage(image.id, { is_active: !image.is_active });
       setSuccessMessage(t('admin.galleryImages.success.updated') || 'Estado actualizado');
       loadImages();
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Error al cambiar estado de imagen:', errorMsg);
       setError(t('admin.galleryImages.errors.updateFailed') || 'Error al actualizar');
     }
   };
@@ -109,12 +125,16 @@ const GalleryImageManager: React.FC = () => {
       return;
     }
 
+    setError(null);
+
     try {
       await deleteGalleryImage(id);
       setSuccessMessage(t('admin.galleryImages.success.deleted') || 'Imagen eliminada exitosamente');
       loadImages();
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Error al eliminar imagen:', errorMsg);
       setError(t('admin.galleryImages.errors.deleteFailed') || 'Error al eliminar imagen');
     }
   };
@@ -131,12 +151,16 @@ const GalleryImageManager: React.FC = () => {
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
     [newImages[index], newImages[targetIndex]] = [newImages[targetIndex], newImages[index]];
 
+    setError(null);
+
     try {
       await updateGalleryImagesOrder(newImages.map(img => img.id));
       setSuccessMessage(t('admin.galleryImages.success.reordered') || 'Orden actualizado');
       loadImages();
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Error al reordenar imágenes:', errorMsg);
       setError(t('admin.galleryImages.errors.reorderFailed') || 'Error al reordenar');
     }
   };
