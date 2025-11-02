@@ -37,3 +37,13 @@ export type GuestDetails = {
   idType: string;
   idNumber: string;
 };
+
+export interface MessageTemplate {
+  id: string;
+  name: string;
+  subject?: string;
+  content: string;
+  type: 'email' | 'whatsapp';
+}
+
+export type CommunicationType = 'email' | 'whatsapp' | 'phone' | 'system';

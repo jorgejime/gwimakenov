@@ -3,7 +3,11 @@
     "common": {
         "close": "Cerrar",
         "error": "Error",
-        "success": "Éxito"
+        "success": "Éxito",
+        "loading": "Cargando...",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "saving": "Guardando..."
     },
     "header": {
         "experience": "Experiencia",
@@ -110,11 +114,22 @@
         "idLabel": "ID de Reserva (UUID)",
         "idPlaceholder": "Ej: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
         "detailsTitle": "Detalles de la Reserva",
+        "adults": "adultos",
+        "children": "niños",
         "details": {
+            "basicInfo": "Información Básica",
             "id": "ID de Reserva",
             "departureDate": "Fecha de Salida",
+            "returnDate": "Fecha de Regreso",
             "totalGuests": "Total Huéspedes",
-            "status": "Estado"
+            "totalPrice": "Precio Total",
+            "status": "Estado",
+            "payerInfo": "Información del Solicitante",
+            "name": "Nombre",
+            "email": "Correo Electrónico",
+            "whatsapp": "WhatsApp",
+            "guestsInfo": "Información de Huéspedes",
+            "itinerary": "Itinerario del Viaje"
         },
         "cancelConfirmation": "¿Estás seguro de que quieres cancelar esta reserva? Esta acción no se puede deshacer.",
         "cancelNotice": "La cancelación liberará la fecha para otros viajeros. Esta acción es irreversible.",
@@ -152,6 +167,11 @@
         "dashboard": {
             "title": "Panel de Reservas",
             "logout": "Cerrar Sesión",
+            "tabs": {
+                "bookings": "Reservas",
+                "images": "Imágenes del Hero",
+                "stats": "Estadísticas"
+            },
             "filterByStatus": "Filtrar por estado:",
             "sortByDate": "Ordenar por fecha:",
             "newestFirst": "Más nuevas primero",
@@ -163,19 +183,124 @@
             "departureDate": "Fecha de Salida",
             "guests": "Huéspedes",
             "status": "Estado",
+            "bookingUpdated": "Reserva actualizada exitosamente.",
             "actions": {
                 "confirm": "Confirmar",
                 "setPending": "Poner Pendiente",
                 "cancel": "Cancelar",
-                "updating": "Actualizando..."
+                "updating": "Actualizando...",
+                "created": "Creada",
+                "updated": "Actualizada",
+                "status_changed": "Estado Cambiado",
+                "deleted": "Eliminada",
+                "cancelled": "Cancelada"
             },
             "successUpdate": "Estado de la reserva actualizado a {{status}}."
+        },
+        "bookingDetail": {
+            "title": "Detalles Completos de la Reserva",
+            "tabs": {
+                "details": "Detalles",
+                "history": "Historial",
+                "communications": "Comunicaciones",
+                "notes": "Notas"
+            },
+            "payerInfo": "Información del Pagador",
+            "tripInfo": "Información del Viaje",
+            "guestsInfo": "Huéspedes",
+            "itinerary": "Itinerario",
+            "internalNotes": "Notas Internas",
+            "fields": {
+                "name": "Nombre",
+                "email": "Email",
+                "whatsapp": "WhatsApp",
+                "language": "Idioma",
+                "departure": "Salida",
+                "return": "Regreso",
+                "status": "Estado",
+                "adults": "Adultos",
+                "children": "Niños",
+                "totalGuests": "Total Huéspedes",
+                "totalPrice": "Precio Total"
+            },
+            "edit": "Editar",
+            "noHistory": "No hay historial de cambios para esta reserva.",
+            "noCommunications": "No se han registrado comunicaciones con el cliente.",
+            "noNotes": "No hay notas para esta reserva.",
+            "addNote": "Agregar Nota",
+            "notePlaceholder": "Escribe una nota sobre esta reserva...",
+            "markImportant": "Marcar como importante",
+            "important": "IMPORTANTE",
+            "deleteBooking": "Eliminar Reserva",
+            "confirmDelete": "¿Estás seguro de que quieres eliminar esta reserva?",
+            "confirmDeleteFinal": "Esta acción NO se puede deshacer. ¿Confirmas la eliminación?",
+            "confirmDeleteNote": "¿Estás seguro de que quieres eliminar esta nota?",
+            "changedBy": "Modificado por",
+            "createdBy": "Creado por",
+            "sentTo": "Enviado a",
+            "actions": {
+                "created": "Creada",
+                "updated": "Actualizada",
+                "status_changed": "Estado cambiado",
+                "deleted": "Eliminada",
+                "cancelled": "Cancelada"
+            },
+            "commTypes": {
+                "whatsapp": "WhatsApp",
+                "email": "Email",
+                "phone": "Teléfono",
+                "system": "Sistema"
+            },
+            "whatsappMessage": "Hola {{name}}, me comunico desde Gwimake respecto a tu reserva {{id}}.",
+            "emailSubject": "Información sobre tu reserva {{id}} - Gwimake",
+            "emailMessage": "Hola {{name}},\n\nNos comunicamos desde Gwimake respecto a tu reserva.\n\nSaludos cordiales,\nEquipo Gwimake"
+        },
+        "stats": {
+            "totalBookings": "Total de Reservas",
+            "confirmed": "Confirmadas",
+            "pending": "Pendientes",
+            "cancelled": "Canceladas",
+            "totalRevenue": "Ingresos Totales",
+            "upcomingGuests": "Huéspedes Próximos",
+            "next30Days": "Próximos 30 días"
+        },
+        "heroImages": {
+            "title": "Gestión de Imágenes del Hero",
+            "subtitle": "Administra las imágenes que aparecen en la portada del sitio",
+            "addNew": "Agregar Nueva Imagen",
+            "newImage": "Nueva Imagen",
+            "preview": "Vista Previa",
+            "inactive": "INACTIVA",
+            "activate": "Activar",
+            "deactivate": "Desactivar",
+            "noImages": "No hay imágenes configuradas",
+            "confirmDelete": "¿Estás seguro de que quieres eliminar esta imagen?",
+            "fields": {
+                "url": "URL de la Imagen",
+                "title": "Título de la Imagen",
+                "titlePlaceholder": "Ej: Sierra Nevada al atardecer"
+            },
+            "errors": {
+                "emptyFields": "Por favor completa todos los campos",
+                "loadFailed": "Error al cargar las imágenes",
+                "addFailed": "Error al agregar la imagen",
+                "updateFailed": "Error al actualizar la imagen",
+                "deleteFailed": "Error al eliminar la imagen",
+                "reorderFailed": "Error al reordenar las imágenes"
+            },
+            "success": {
+                "added": "Imagen agregada exitosamente",
+                "updated": "Imagen actualizada exitosamente",
+                "deleted": "Imagen eliminada exitosamente",
+                "reordered": "Orden de imágenes actualizado"
+            }
         }
     },
     "errors": {
         "unknown": "Ocurrió un error desconocido.",
         "invalidDate": "Por favor, selecciona una fecha de llegada válida.",
         "apiKeyMissing": "La API de generación de itinerarios no está configurada. Por favor, contacta al administrador.",
+        "bookingNotFound": "No se encontró la reserva solicitada.",
         "form": {
             "completeDateAndGuests": "Completa la fecha y número de huéspedes.",
             "completePayerInfo": "Por favor, completa los datos de la persona que reserva.",

@@ -385,6 +385,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
                 payer_email: payerEmail,
                 payer_whatsapp: payerWhatsapp,
                 guest_details: guests.map(({ id, ...rest }) => rest),
+                itinerary: itinerary,
+                language_preference: language
             };
             const newBooking = await createBooking(bookingData);
             

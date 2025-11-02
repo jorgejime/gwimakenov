@@ -170,6 +170,8 @@ export interface BookingData {
     payer_email: string;
     payer_whatsapp: string;
     guest_details: GuestDetails[];
+    itinerary?: any;
+    language_preference?: string;
 }
 
 export const createBooking = async (bookingData: BookingData): Promise<{ id: string }> => {

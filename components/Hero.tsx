@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../contexts/LanguageContext';
+import { getHeroImages, type HeroImage } from '../services/supabaseExtendedService';
 
 interface HeroProps {
     onBookNowClick: () => void;
@@ -7,10 +8,32 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ onBookNowClick }) => {
     const { t } = useTranslation();
+    const [heroImage, setHeroImage] = useState<HeroImage | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const loadHeroImage = async () => {
+            try {
+                const images = await getHeroImages(true);
+                if (images.length > 0) {
+                    setHeroImage(images[0]);
+                }
+            } catch (error) {
+                console.error('Error loading hero image:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadHeroImage();
+    }, []);
+
+    const defaultImageUrl = 'https://i.ibb.co/hJ9vpp44/20250719-1637-Cielo-Estrellado-Sierra-Nevada-remix-01k0j9t8rwe95aq24qadbnr31p.png';
+    const imageUrl = heroImage?.url || defaultImageUrl;
 
     return (
         <section className="h-screen min-h-[700px] flex items-center justify-center text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" style={{ backgroundImage: "url('https://i.ibb.co/hJ9vpp44/20250719-1637-Cielo-Estrellado-Sierra-Nevada-remix-01k0j9t8rwe95aq24qadbnr31p.png')", filter: 'brightness(0.6)' }}></div>
+            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" style={{ backgroundImage: `url('${imageUrl}')`, filter: 'brightness(0.6)' }}></div>
             <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/20 to-transparent z-10"></div>
             <div className="relative z-20 container mx-auto px-6 flex flex-col items-center">
                 <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 tracking-tight font-serif shadow-black/50 text-shadow">

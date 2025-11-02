@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { getBookingById, cancelBooking } from '../services/supabaseService';
-import type { BookingDetails } from '../services/supabaseService';
+import { cancelBooking } from '../services/supabaseService';
+import { getBookingComplete, type BookingComplete } from '../services/supabaseExtendedService';
+import type { ItineraryDay } from '../types';
 import { CheckCircleIcon, InformationCircleIcon, ExclamationTriangleIcon, ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from '../contexts/LanguageContext';
 
@@ -18,7 +19,7 @@ const formatDate = (dateString: string, locale: string): string => {
 const ManageBooking: React.FC<{ onBackToHome: () => void }> = ({ onBackToHome }) => {
     const { t, language } = useTranslation();
     const [bookingId, setBookingId] = useState('');
-    const [foundBooking, setFoundBooking] = useState<BookingDetails | null>(null);
+    const [foundBooking, setFoundBooking] = useState<BookingComplete | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -34,7 +35,7 @@ const ManageBooking: React.FC<{ onBackToHome: () => void }> = ({ onBackToHome })
         }
         setIsLoading(true);
         try {
-            const booking = await getBookingById(bookingId.trim());
+            const booking = await getBookingComplete(bookingId.trim());
             if (booking) {
                 setFoundBooking(booking);
             } else {
@@ -69,7 +70,7 @@ const ManageBooking: React.FC<{ onBackToHome: () => void }> = ({ onBackToHome })
         }
     };
     
-    const getStatusInfo = (status: BookingDetails['status']) => {
+    const getStatusInfo = (status: BookingComplete['status']) => {
         switch (status) {
             case 'pending': return { text: t('bookingStatus.pending'), color: 'bg-yellow-100 text-yellow-800' };
             case 'confirmed': return { text: t('bookingStatus.confirmed'), color: 'bg-green-100 text-green-800' };
@@ -127,12 +128,58 @@ const ManageBooking: React.FC<{ onBackToHome: () => void }> = ({ onBackToHome })
                     {foundBooking && (
                         <div className="mt-8 pt-6 border-t border-slate-200">
                              <h3 className="text-2xl font-bold text-slate-800 font-serif mb-4">{t('manageBooking.detailsTitle')}</h3>
-                             <div className="space-y-3 bg-white p-6 rounded-lg border border-slate-300">
+                             <div className="space-y-6">
+                             <div className="bg-white p-6 rounded-lg border border-slate-300 space-y-3">
+                                <h4 className="text-lg font-bold text-slate-800 mb-3">{t('manageBooking.details.basicInfo')}</h4>
                                 <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.id')}:</span> <code className="text-sm text-slate-700 bg-slate-100 px-2 py-1 rounded">{foundBooking.id}</code></div>
                                 <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.departureDate')}:</span> <span className="font-bold">{formatDate(foundBooking.departure_date, language)}</span></div>
-                                <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.totalGuests')}:</span> <span className="font-bold">{foundBooking.total_guests}</span></div>
+                                <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.returnDate')}:</span> <span className="font-bold">{formatDate(foundBooking.return_date, language)}</span></div>
+                                <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.totalGuests')}:</span> <span className="font-bold">{foundBooking.total_guests} ({foundBooking.adults} {t('manageBooking.adults')}, {foundBooking.children} {t('manageBooking.children')})</span></div>
+                                <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.totalPrice')}:</span> <span className="font-bold text-emerald-600 text-xl">COP {Number(foundBooking.total_price).toLocaleString('es-CO')}</span></div>
                                 <div className="flex justify-between items-center"><span className="font-semibold text-slate-600">{t('manageBooking.details.status')}:</span> <span className={`px-3 py-1 text-sm font-bold rounded-full ${getStatusInfo(foundBooking.status).color}`}>{getStatusInfo(foundBooking.status).text}</span></div>
                              </div>
+
+                             <div className="bg-white p-6 rounded-lg border border-slate-300">
+                                <h4 className="text-lg font-bold text-slate-800 mb-3">{t('manageBooking.details.payerInfo')}</h4>
+                                <div className="space-y-2 text-sm">
+                                    <div><span className="font-semibold text-slate-600">{t('manageBooking.details.name')}:</span> {foundBooking.payer_name}</div>
+                                    <div><span className="font-semibold text-slate-600">{t('manageBooking.details.email')}:</span> {foundBooking.payer_email}</div>
+                                    <div><span className="font-semibold text-slate-600">{t('manageBooking.details.whatsapp')}:</span> {foundBooking.payer_whatsapp}</div>
+                                </div>
+                             </div>
+
+                             {Array.isArray(foundBooking.guest_details) && foundBooking.guest_details.length > 0 && (
+                                <div className="bg-white p-6 rounded-lg border border-slate-300">
+                                    <h4 className="text-lg font-bold text-slate-800 mb-3">{t('manageBooking.details.guestsInfo')}</h4>
+                                    <div className="space-y-2">
+                                        {foundBooking.guest_details.map((guest: any, index: number) => (
+                                            <div key={index} className="bg-slate-50 p-3 rounded">
+                                                <p className="font-semibold text-slate-800">{guest.name}</p>
+                                                <p className="text-sm text-slate-600">{guest.idType}: {guest.idNumber}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                             )}
+
+                             {Array.isArray(foundBooking.itinerary) && foundBooking.itinerary.length > 0 && (
+                                <div className="bg-white p-6 rounded-lg border border-slate-300">
+                                    <h4 className="text-lg font-bold text-slate-800 mb-3">{t('manageBooking.details.itinerary')}</h4>
+                                    <div className="space-y-4">
+                                        {(foundBooking.itinerary as ItineraryDay[]).map((day, index) => (
+                                            <div key={index}>
+                                                <h5 className="font-bold text-emerald-700">{day.day}: {day.title}</h5>
+                                                <ul className="mt-2 space-y-1 text-sm text-slate-700">
+                                                    {day.activities.map((activity, actIndex) => (
+                                                        <li key={actIndex}>• {activity.time} - {activity.description}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                             )}
+                        </div>
 
                              {['pending', 'confirmed'].includes(foundBooking.status) ? (
                                 <div className="mt-6 text-center">
