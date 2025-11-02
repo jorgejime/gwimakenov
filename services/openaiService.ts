@@ -263,14 +263,14 @@ Return ONLY valid JSON with the following structure (no markdown, no \`\`\`json)
 
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-5-nano-2025-08-07",
             messages: [
                 { role: "system", content: p.system },
                 { role: "user", content: p.user }
             ],
             response_format: { type: "json_object" },
-            temperature: 0.7,
-            max_tokens: 2000
+            temperature: 0.9,
+            max_tokens: 5000
         });
 
         const content = response.choices[0]?.message?.content;
