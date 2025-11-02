@@ -1,6 +1,6 @@
-import React from 'react';
-import { getInstagramPosts } from '../constants';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../contexts/LanguageContext';
+import { getGalleryImages, type GalleryImage } from '../services/supabaseExtendedService';
 
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -23,7 +23,35 @@ const ChatBubbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const GallerySection: React.FC = () => {
     const { t } = useTranslation();
-    const instagramPosts = getInstagramPosts(t);
+    const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadGalleryImages();
+    }, []);
+
+    const loadGalleryImages = async () => {
+        try {
+            const images = await getGalleryImages(true);
+            setGalleryImages(images);
+        } catch (error) {
+            console.error('Error loading gallery images:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <section className="py-24 bg-slate-50">
+                <div className="container mx-auto px-6">
+                    <div className="text-center">
+                        <p className="text-slate-600">{t('common.loading')}</p>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="py-24 bg-slate-50">
@@ -32,25 +60,31 @@ const GallerySection: React.FC = () => {
                     <h2 className="text-4xl font-extrabold text-slate-900 font-serif">{t('gallery.title')}</h2>
                     <p className="text-lg text-slate-600 mt-2">{t('gallery.subtitle')}</p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {instagramPosts.map((post) => (
-                        <div key={post.id} className="group relative block w-full aspect-square overflow-hidden rounded-xl shadow-lg">
-                            <img src={post.src} alt={post.alt} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-in-out" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="absolute inset-0 flex flex-col justify-end p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p className="text-sm font-light leading-relaxed mb-4">{post.caption}</p>
-                                <div className="flex items-center text-sm font-medium">
-                                    <HeartIcon className="w-5 h-5 mr-1" />
-                                    <span>{post.likes}</span>
-                                    <ChatBubbleIcon className="w-5 h-5 ml-4 mr-1" />
-                                    <span>{post.comments}</span>
+                {galleryImages.length === 0 ? (
+                    <div className="text-center py-12">
+                        <p className="text-slate-600">No hay imágenes disponibles en este momento.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                        {galleryImages.map((image) => (
+                            <div key={image.id} className="group relative block w-full aspect-square overflow-hidden rounded-xl shadow-lg">
+                                <img src={image.url} alt={image.alt_text} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-in-out" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div className="absolute inset-0 flex flex-col justify-end p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="text-sm font-light leading-relaxed mb-4">{image.caption}</p>
+                                    <div className="flex items-center text-sm font-medium">
+                                        <HeartIcon className="w-5 h-5 mr-1" />
+                                        <span>{image.likes}</span>
+                                        <ChatBubbleIcon className="w-5 h-5 ml-4 mr-1" />
+                                        <span>{image.comments}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
                 <div className="text-center mt-16">
-                     <a href="https://www.instagram.com/gwimake/" target="_blank" rel="noopener noreferrer" 
+                     <a href="https://www.instagram.com/gwimake/" target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:shadow-slate-900/40 transition-all duration-300 transform hover:scale-105">
                         <InstagramIcon className="w-6 h-6" />
                         {t('gallery.button')}

@@ -294,6 +294,37 @@
                 "deleted": "Imagen eliminada exitosamente",
                 "reordered": "Orden de imágenes actualizado"
             }
+        },
+        "galleryImages": {
+            "title": "Gestión de Imágenes de Galería",
+            "subtitle": "Administra las imágenes que aparecen en \"Sigue nuestra historia\"",
+            "addNew": "Agregar Nueva Imagen",
+            "newImage": "Nueva Imagen",
+            "preview": "Vista Previa",
+            "inactive": "INACTIVA",
+            "activate": "Activar",
+            "deactivate": "Desactivar",
+            "noImages": "No hay imágenes configuradas",
+            "confirmDelete": "¿Estás seguro de que quieres eliminar esta imagen?",
+            "fields": {
+                "url": "URL de la Imagen",
+                "title": "Título de la Imagen",
+                "titlePlaceholder": "Ej: Sierra Nevada al atardecer"
+            },
+            "errors": {
+                "emptyFields": "Por favor completa todos los campos",
+                "loadFailed": "Error al cargar las imágenes",
+                "addFailed": "Error al agregar la imagen",
+                "updateFailed": "Error al actualizar la imagen",
+                "deleteFailed": "Error al eliminar la imagen",
+                "reorderFailed": "Error al reordenar las imágenes"
+            },
+            "success": {
+                "added": "Imagen agregada exitosamente",
+                "updated": "Imagen actualizada exitosamente",
+                "deleted": "Imagen eliminada exitosamente",
+                "reordered": "Orden de imágenes actualizado"
+            }
         }
     },
     "errors": {

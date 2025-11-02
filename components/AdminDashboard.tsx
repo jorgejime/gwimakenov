@@ -5,6 +5,7 @@ import { useTranslation } from '../contexts/LanguageContext';
 import { ArrowRightOnRectangleIcon, CheckCircleIcon, ExclamationTriangleIcon, PhotoIcon, ChartBarIcon } from '@heroicons/react/24/solid';
 import BookingDetailModal from './BookingDetailModal';
 import HeroImageManager from './HeroImageManager';
+import GalleryImageManager from './GalleryImageManager';
 
 const formatDate = (dateString: string, locale: string): string => {
     if (!dateString) return '';
@@ -33,7 +34,7 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [updatingId, setUpdatingId] = useState<string | null>(null);
     const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
-    const [activeView, setActiveView] = useState<'bookings' | 'images' | 'stats'>('bookings');
+    const [activeView, setActiveView] = useState<'bookings' | 'images' | 'gallery' | 'stats'>('bookings');
     const [stats, setStats] = useState<any>(null);
 
     const [statusFilter, setStatusFilter] = useState<BookingStatus | 'all'>('all');
@@ -115,23 +116,30 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                     </button>
                 </header>
 
-                <div className="flex gap-2 mb-8 border-b border-slate-200">
+                <div className="flex gap-2 mb-8 border-b border-slate-200 overflow-x-auto">
                     <button
                         onClick={() => setActiveView('bookings')}
-                        className={`px-6 py-3 font-semibold ${activeView === 'bookings' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
+                        className={`px-6 py-3 font-semibold whitespace-nowrap ${activeView === 'bookings' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
                     >
                         {t('admin.dashboard.tabs.bookings')}
                     </button>
                     <button
                         onClick={() => setActiveView('images')}
-                        className={`flex items-center gap-2 px-6 py-3 font-semibold ${activeView === 'images' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
+                        className={`flex items-center gap-2 px-6 py-3 font-semibold whitespace-nowrap ${activeView === 'images' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
                     >
                         <PhotoIcon className="w-5 h-5" />
                         {t('admin.dashboard.tabs.images')}
                     </button>
                     <button
+                        onClick={() => setActiveView('gallery')}
+                        className={`flex items-center gap-2 px-6 py-3 font-semibold whitespace-nowrap ${activeView === 'gallery' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
+                    >
+                        <PhotoIcon className="w-5 h-5" />
+                        Galería
+                    </button>
+                    <button
                         onClick={() => setActiveView('stats')}
-                        className={`flex items-center gap-2 px-6 py-3 font-semibold ${activeView === 'stats' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
+                        className={`flex items-center gap-2 px-6 py-3 font-semibold whitespace-nowrap ${activeView === 'stats' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
                     >
                         <ChartBarIcon className="w-5 h-5" />
                         {t('admin.dashboard.tabs.stats')}
@@ -152,6 +160,8 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                 )}
 
                 {activeView === 'images' && <HeroImageManager />}
+
+                {activeView === 'gallery' && <GalleryImageManager />}
 
                 {activeView === 'stats' && (
                     <div className="space-y-6">

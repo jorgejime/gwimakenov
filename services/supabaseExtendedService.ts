@@ -73,6 +73,20 @@ export interface BookingNote {
   is_important: boolean;
 }
 
+export interface GalleryImage {
+  id: string;
+  url: string;
+  title: string;
+  alt_text: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  order_position: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 let supabase: SupabaseClient | null = null;
 
 const getSupabaseClient = (): SupabaseClient => {
@@ -423,6 +437,142 @@ export const updateHeroImagesOrder = async (imageIds: string[]): Promise<void> =
     if (error) {
       console.error('Error updating image order:', error);
       throw new Error('UPDATE_IMAGE_ORDER_FAILED');
+    }
+  }
+};
+
+// ========== FUNCIONES DE GESTIÓN DE IMÁGENES DE GALERÍA ==========
+
+/**
+ * Obtiene todas las imágenes de la galería
+ */
+export const getGalleryImages = async (activeOnly: boolean = false): Promise<GalleryImage[]> => {
+  const client = getSupabaseClient();
+
+  let query = client
+    .from('gallery_images')
+    .select('*')
+    .order('order_position', { ascending: true });
+
+  if (activeOnly) {
+    query = query.eq('is_active', true);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching gallery images:', error);
+    throw new Error('FETCH_GALLERY_IMAGES_FAILED');
+  }
+
+  return data || [];
+};
+
+/**
+ * Añade una nueva imagen a la galería
+ */
+export const addGalleryImage = async (
+  url: string,
+  title: string,
+  altText: string,
+  caption: string,
+  likes: number = 0,
+  comments: number = 0,
+  orderPosition: number,
+  isActive: boolean = true
+): Promise<GalleryImage> => {
+  const client = getSupabaseClient();
+
+  const { data, error } = await client
+    .from('gallery_images')
+    .insert([{
+      url,
+      title,
+      alt_text: altText,
+      caption,
+      likes,
+      comments,
+      order_position: orderPosition,
+      is_active: isActive
+    }])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error adding gallery image:', error);
+    throw new Error('ADD_GALLERY_IMAGE_FAILED');
+  }
+
+  return data as GalleryImage;
+};
+
+/**
+ * Actualiza una imagen de la galería
+ */
+export const updateGalleryImage = async (
+  id: string,
+  updates: Partial<GalleryImage>
+): Promise<GalleryImage> => {
+  const client = getSupabaseClient();
+
+  const updateData: any = { ...updates };
+  updateData.updated_at = new Date().toISOString();
+
+  const { data, error } = await client
+    .from('gallery_images')
+    .update(updateData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating gallery image:', error);
+    throw new Error('UPDATE_GALLERY_IMAGE_FAILED');
+  }
+
+  return data as GalleryImage;
+};
+
+/**
+ * Elimina una imagen de la galería
+ */
+export const deleteGalleryImage = async (id: string): Promise<void> => {
+  const client = getSupabaseClient();
+
+  const { error } = await client
+    .from('gallery_images')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error deleting gallery image:', error);
+    throw new Error('DELETE_GALLERY_IMAGE_FAILED');
+  }
+};
+
+/**
+ * Actualiza el orden de las imágenes de la galería
+ */
+export const updateGalleryImagesOrder = async (imageIds: string[]): Promise<void> => {
+  const client = getSupabaseClient();
+
+  const updates = imageIds.map((id, index) => ({
+    id,
+    order_position: index + 1
+  }));
+
+  for (const update of updates) {
+    const { error } = await client
+      .from('gallery_images')
+      .update({
+        order_position: update.order_position,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', update.id);
+
+    if (error) {
+      console.error('Error updating gallery image order:', error);
+      throw new Error('UPDATE_GALLERY_ORDER_FAILED');
     }
   }
 };
