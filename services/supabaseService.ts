@@ -72,6 +72,7 @@ export type Database = {
           transport_cost_child: number;
           insurance_cost_person: number;
           max_capacity: number;
+          whatsapp_number: string;
           is_active: boolean;
           updated_at: string;
           updated_by: string;
@@ -85,6 +86,7 @@ export type Database = {
           transport_cost_child: number;
           insurance_cost_person: number;
           max_capacity: number;
+          whatsapp_number?: string;
           is_active?: boolean;
           updated_at?: string;
           updated_by?: string;
@@ -98,6 +100,7 @@ export type Database = {
           transport_cost_child?: number;
           insurance_cost_person?: number;
           max_capacity?: number;
+          whatsapp_number?: string;
           is_active?: boolean;
           updated_at?: string;
           updated_by?: string;
@@ -457,6 +460,7 @@ export const getCurrentPricing = async (): Promise<PricingConfig> => {
             transport_cost_child: 70000,
             insurance_cost_person: 12000,
             max_capacity: 20,
+            whatsapp_number: '573184131391',
             is_active: true,
             updated_at: new Date().toISOString(),
             updated_by: 'system'
@@ -493,6 +497,7 @@ export const updatePricing = async (updates: Partial<PricingConfig>): Promise<Pr
             id: 'demo-pricing',
             created_at: new Date().toISOString(),
             ...updates as any,
+            whatsapp_number: '573184131391',
             is_active: true,
             updated_at: new Date().toISOString(),
             updated_by: 'admin'

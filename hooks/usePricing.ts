@@ -6,7 +6,8 @@ import {
     TRANSPORT_COST_ADULT,
     TRANSPORT_COST_CHILD,
     INSURANCE_COST_PERSON,
-    MAX_CAPACITY
+    MAX_CAPACITY,
+    WHATSAPP_CONFIRMATION_NUMBER
 } from '../constants';
 
 export const usePricing = () => {
@@ -38,6 +39,7 @@ export const usePricing = () => {
                         transport_cost_child: TRANSPORT_COST_CHILD,
                         insurance_cost_person: INSURANCE_COST_PERSON,
                         max_capacity: MAX_CAPACITY,
+                        whatsapp_number: WHATSAPP_CONFIRMATION_NUMBER,
                         is_active: true,
                         updated_at: new Date().toISOString(),
                         updated_by: 'system'
@@ -67,6 +69,7 @@ export const usePricing = () => {
             transport_cost_child: TRANSPORT_COST_CHILD,
             insurance_cost_person: INSURANCE_COST_PERSON,
             max_capacity: MAX_CAPACITY,
+            whatsapp_number: WHATSAPP_CONFIRMATION_NUMBER,
             is_active: true,
             updated_at: new Date().toISOString(),
             updated_by: 'system'

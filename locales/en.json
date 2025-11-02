@@ -198,14 +198,17 @@
                 "transportAdult": "Adult Transportation",
                 "transportChild": "Child Transportation",
                 "insurance": "Insurance per Person",
-                "maxCapacity": "Maximum Capacity"
+                "maxCapacity": "Maximum Capacity",
+                "whatsappNumber": "WhatsApp Number"
             },
             "descriptions": {
                 "pricePerNight": "Accommodation cost per person per night",
                 "serviceFee": "Fixed fee for management and administration",
                 "insurance": "Insurance cost per person for the trip",
-                "maxCapacity": "Maximum number of visitors allowed"
+                "maxCapacity": "Maximum number of visitors allowed",
+                "whatsappNumber": "WhatsApp number to receive booking confirmations (include country code, no symbols)"
             },
+            "whatsappPreview": "Link preview",
             "preview": {
                 "title": "Price Preview"
             },

@@ -277,14 +277,17 @@
                 "transportAdult": "Transporte Adulto",
                 "transportChild": "Transporte Niño",
                 "insurance": "Seguro por Persona",
-                "maxCapacity": "Capacidad Máxima"
+                "maxCapacity": "Capacidad Máxima",
+                "whatsappNumber": "Número de WhatsApp"
             },
             "descriptions": {
                 "pricePerNight": "Costo de alojamiento por persona por noche",
                 "serviceFee": "Tarifa fija por gestión y administración",
                 "insurance": "Costo de seguro por persona para el viaje",
-                "maxCapacity": "Número máximo de visitantes permitidos"
+                "maxCapacity": "Número máximo de visitantes permitidos",
+                "whatsappNumber": "Número de WhatsApp para recibir confirmaciones de reservas (incluye código de país, sin símbolos)"
             },
+            "whatsappPreview": "Vista previa del enlace",
             "preview": {
                 "title": "Vista Previa de Precio"
             },

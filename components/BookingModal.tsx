@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { XMarkIcon, CheckCircleIcon, EnvelopeIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import { activityIcons, WHATSAPP_CONFIRMATION_NUMBER, getIDTypes, BOOKING_AVAILABILITY_MONTHS, TRIP_DURATION_NIGHTS } from '../constants';
+import { activityIcons, getIDTypes, BOOKING_AVAILABILITY_MONTHS, TRIP_DURATION_NIGHTS } from '../constants';
 import type { GuestInfo, ItineraryDay } from '../types';
 import { getBookedDates, createBooking } from '../services/supabaseService';
 import { useTranslation, type TFunction } from '../contexts/LanguageContext';
@@ -425,10 +425,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
                 `*${t('whatsapp.pricesHeader')}*\n` +
                 `${priceDetails}\n\n` +
                 `${t('whatsapp.farewell')}`;
-            
+
             setFinalMessage(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_CONFIRMATION_NUMBER}?text=${encodeURIComponent(message)}`;
-            
+            const whatsappUrl = `https://wa.me/${pricing.whatsapp_number}?text=${encodeURIComponent(message)}`;
+
             window.open(whatsappUrl, '_blank');
             setIsSubmitted(true);
 

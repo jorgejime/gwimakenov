@@ -32,7 +32,8 @@ const PricingManager: React.FC = () => {
         transport_cost_adult: 0,
         transport_cost_child: 0,
         insurance_cost_person: 0,
-        max_capacity: 0
+        max_capacity: 0,
+        whatsapp_number: ''
     });
 
     const [previewGuests, setPreviewGuests] = useState({ adults: 2, children: 0 });
@@ -54,7 +55,8 @@ const PricingManager: React.FC = () => {
                 transport_cost_adult: data.transport_cost_adult,
                 transport_cost_child: data.transport_cost_child,
                 insurance_cost_person: data.insurance_cost_person,
-                max_capacity: data.max_capacity
+                max_capacity: data.max_capacity,
+                whatsapp_number: data.whatsapp_number
             });
         } catch (err) {
             const errorMessage = err instanceof Error ? t(`errors.supabase.${err.message}`) : t('errors.unknown');
@@ -74,8 +76,12 @@ const PricingManager: React.FC = () => {
     };
 
     const handleInputChange = (field: keyof typeof formValues, value: string) => {
-        const numValue = parseFloat(value) || 0;
-        setFormValues(prev => ({ ...prev, [field]: numValue }));
+        if (field === 'whatsapp_number') {
+            setFormValues(prev => ({ ...prev, [field]: value }));
+        } else {
+            const numValue = parseFloat(value) || 0;
+            setFormValues(prev => ({ ...prev, [field]: numValue }));
+        }
     };
 
     const calculatePreview = () => {
@@ -95,7 +101,8 @@ const PricingManager: React.FC = () => {
         pricing.transport_cost_adult !== formValues.transport_cost_adult ||
         pricing.transport_cost_child !== formValues.transport_cost_child ||
         pricing.insurance_cost_person !== formValues.insurance_cost_person ||
-        pricing.max_capacity !== formValues.max_capacity
+        pricing.max_capacity !== formValues.max_capacity ||
+        pricing.whatsapp_number !== formValues.whatsapp_number
     );
 
     const handleSave = async () => {
@@ -112,6 +119,7 @@ const PricingManager: React.FC = () => {
                 transport_cost_child: formValues.transport_cost_child,
                 insurance_cost_person: formValues.insurance_cost_person,
                 max_capacity: formValues.max_capacity,
+                whatsapp_number: formValues.whatsapp_number,
                 updated_by: 'admin'
             });
 
@@ -135,7 +143,8 @@ const PricingManager: React.FC = () => {
                 transport_cost_adult: pricing.transport_cost_adult,
                 transport_cost_child: pricing.transport_cost_child,
                 insurance_cost_person: pricing.insurance_cost_person,
-                max_capacity: pricing.max_capacity
+                max_capacity: pricing.max_capacity,
+                whatsapp_number: pricing.whatsapp_number
             });
         }
     };
@@ -147,7 +156,8 @@ const PricingManager: React.FC = () => {
             transport_cost_adult: t('admin.pricing.fields.transportAdult'),
             transport_cost_child: t('admin.pricing.fields.transportChild'),
             insurance_cost_person: t('admin.pricing.fields.insurance'),
-            max_capacity: t('admin.pricing.fields.maxCapacity')
+            max_capacity: t('admin.pricing.fields.maxCapacity'),
+            whatsapp_number: t('admin.pricing.fields.whatsappNumber')
         };
         return labelMap[fieldName] || fieldName;
     };
@@ -290,6 +300,31 @@ const PricingManager: React.FC = () => {
                                 step="1"
                             />
                             <p className="text-xs text-slate-500 mt-1">{t('admin.pricing.descriptions.maxCapacity')}</p>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                {t('admin.pricing.fields.whatsappNumber')}
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-medium">+</span>
+                                <input
+                                    type="text"
+                                    value={formValues.whatsapp_number}
+                                    onChange={(e) => handleInputChange('whatsapp_number', e.target.value.replace(/[^0-9]/g, ''))}
+                                    placeholder="573184131391"
+                                    className="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                                    maxLength={15}
+                                />
+                            </div>
+                            <p className="text-xs text-slate-500 mt-1">{t('admin.pricing.descriptions.whatsappNumber')}</p>
+                            {formValues.whatsapp_number && (
+                                <div className="mt-2 p-2 bg-emerald-50 border border-emerald-200 rounded-lg">
+                                    <p className="text-xs text-emerald-700">
+                                        <span className="font-semibold">{t('admin.pricing.whatsappPreview')}:</span> https://wa.me/{formValues.whatsapp_number}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
