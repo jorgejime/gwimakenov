@@ -151,6 +151,12 @@
         "dashboard": {
             "title": "Bookings Dashboard",
             "logout": "Logout",
+            "tabs": {
+                "bookings": "Bookings",
+                "images": "Hero Images",
+                "stats": "Statistics",
+                "pricing": "Pricing"
+            },
             "filterByStatus": "Filter by status:",
             "sortByDate": "Sort by date:",
             "newestFirst": "Newest First",
@@ -162,6 +168,7 @@
             "departureDate": "Departure Date",
             "guests": "Guests",
             "status": "Status",
+            "bookingUpdated": "Booking updated successfully.",
             "actions": {
                 "confirm": "Confirm",
                 "setPending": "Set to Pending",
@@ -169,6 +176,50 @@
                 "updating": "Updating..."
             },
             "successUpdate": "Booking status updated to {{status}}."
+        },
+        "stats": {
+            "totalBookings": "Total Bookings",
+            "confirmed": "Confirmed",
+            "pending": "Pending",
+            "cancelled": "Cancelled",
+            "totalRevenue": "Total Revenue",
+            "upcomingGuests": "Upcoming Guests",
+            "next30Days": "Next 30 days"
+        },
+        "pricing": {
+            "title": "Price Management",
+            "save": "Save Changes",
+            "reset": "Reset",
+            "saving": "Saving...",
+            "successUpdate": "Prices updated successfully",
+            "fields": {
+                "pricePerNight": "Price per Night per Person",
+                "serviceFee": "Service Fee",
+                "transportAdult": "Adult Transportation",
+                "transportChild": "Child Transportation",
+                "insurance": "Insurance per Person",
+                "maxCapacity": "Maximum Capacity"
+            },
+            "descriptions": {
+                "pricePerNight": "Accommodation cost per person per night",
+                "serviceFee": "Fixed fee for management and administration",
+                "insurance": "Insurance cost per person for the trip",
+                "maxCapacity": "Maximum number of visitors allowed"
+            },
+            "preview": {
+                "title": "Price Preview"
+            },
+            "history": {
+                "title": "Change History",
+                "noChanges": "No changes recorded",
+                "changedBy": "Changed by"
+            },
+            "confirmModal": {
+                "title": "Confirm Price Changes",
+                "message": "Are you sure you want to update the prices? The new values will be applied to all future bookings immediately.",
+                "confirm": "Confirm",
+                "cancel": "Cancel"
+            }
         }
     },
     "errors": {
@@ -192,7 +243,12 @@
             "CANCEL_BOOKING_NOT_FOUND": "Could not find the booking to cancel.",
             "FETCH_ALL_BOOKINGS_FAILED": "Could not load bookings for the admin dashboard.",
             "UPDATE_STATUS_FAILED": "Could not update booking status.",
-            "UPDATE_STATUS_FAILED_NOT_FOUND": "Could not find the booking to update."
+            "UPDATE_STATUS_FAILED_NOT_FOUND": "Could not find the booking to update.",
+            "FETCH_PRICING_FAILED": "Could not load pricing configuration.",
+            "NO_ACTIVE_PRICING_CONFIG": "No active pricing configuration found.",
+            "UPDATE_PRICING_FAILED": "Could not update pricing.",
+            "UPDATE_PRICING_NO_DATA": "Pricing update did not return data.",
+            "FETCH_PRICING_HISTORY_FAILED": "Could not load pricing history."
         }
     },
     "whatsapp": {

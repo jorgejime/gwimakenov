@@ -62,6 +62,88 @@ export type Database = {
         };
         Relationships: [];
       };
+      pricing_config: {
+        Row: {
+          id: string;
+          created_at: string;
+          price_per_night: number;
+          service_fee: number;
+          transport_cost_adult: number;
+          transport_cost_child: number;
+          insurance_cost_person: number;
+          max_capacity: number;
+          is_active: boolean;
+          updated_at: string;
+          updated_by: string;
+        };
+        Insert: {
+          id?: string;
+          created_at?: string;
+          price_per_night: number;
+          service_fee: number;
+          transport_cost_adult: number;
+          transport_cost_child: number;
+          insurance_cost_person: number;
+          max_capacity: number;
+          is_active?: boolean;
+          updated_at?: string;
+          updated_by?: string;
+        };
+        Update: {
+          id?: string;
+          created_at?: string;
+          price_per_night?: number;
+          service_fee?: number;
+          transport_cost_adult?: number;
+          transport_cost_child?: number;
+          insurance_cost_person?: number;
+          max_capacity?: number;
+          is_active?: boolean;
+          updated_at?: string;
+          updated_by?: string;
+        };
+        Relationships: [];
+      };
+      pricing_history: {
+        Row: {
+          id: string;
+          pricing_config_id: string | null;
+          created_at: string;
+          field_name: string;
+          old_value: number | null;
+          new_value: number;
+          changed_by: string;
+          notes: string | null;
+        };
+        Insert: {
+          id?: string;
+          pricing_config_id?: string | null;
+          created_at?: string;
+          field_name: string;
+          old_value?: number | null;
+          new_value: number;
+          changed_by?: string;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          pricing_config_id?: string | null;
+          created_at?: string;
+          field_name?: string;
+          old_value?: number | null;
+          new_value?: number;
+          changed_by?: string;
+          notes?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pricing_history_pricing_config_id_fkey";
+            columns: ["pricing_config_id"];
+            referencedRelation: "pricing_config";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -81,6 +163,9 @@ export type Database = {
 export type BookingStatus = Database['public']['Tables']['bookings']['Row']['status'];
 export type BookingDetails = Pick<Database['public']['Tables']['bookings']['Row'], 'id' | 'departure_date' | 'total_guests' | 'total_price' | 'status'>;
 export type AdminBooking = Pick<Database['public']['Tables']['bookings']['Row'], 'id' | 'payer_name' | 'departure_date' | 'total_guests' | 'status' | 'created_at'>;
+
+export type PricingConfig = Database['public']['Tables']['pricing_config']['Row'];
+export type PricingHistory = Database['public']['Tables']['pricing_history']['Row'];
 
 
 let supabase: SupabaseClient<Database> | null = null;
@@ -347,4 +432,117 @@ export const updateBookingStatus = async (id: string, status: BookingStatus): Pr
     }
 
     return data;
+};
+
+// --- Pricing Functions ---
+
+let cachedPricing: PricingConfig | null = null;
+let lastPricingFetch: number = 0;
+const PRICING_CACHE_TTL = 60000;
+
+export const getCurrentPricing = async (): Promise<PricingConfig> => {
+    const now = Date.now();
+    if (cachedPricing && (now - lastPricingFetch < PRICING_CACHE_TTL)) {
+        return cachedPricing;
+    }
+
+    const client = getSupabaseClient();
+    if (!client) {
+        return {
+            id: 'demo-pricing',
+            created_at: new Date().toISOString(),
+            price_per_night: 250000,
+            service_fee: 50000,
+            transport_cost_adult: 90000,
+            transport_cost_child: 70000,
+            insurance_cost_person: 12000,
+            max_capacity: 20,
+            is_active: true,
+            updated_at: new Date().toISOString(),
+            updated_by: 'system'
+        };
+    }
+
+    const { data, error } = await client
+        .from('pricing_config')
+        .select('*')
+        .eq('is_active', true)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+    if (error) {
+        console.error('Error fetching pricing config:', error);
+        throw new Error('FETCH_PRICING_FAILED');
+    }
+
+    if (!data) {
+        throw new Error('NO_ACTIVE_PRICING_CONFIG');
+    }
+
+    cachedPricing = data;
+    lastPricingFetch = now;
+    return data;
+};
+
+export const updatePricing = async (updates: Partial<PricingConfig>): Promise<PricingConfig> => {
+    const client = getSupabaseClient();
+    if (!client) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return {
+            id: 'demo-pricing',
+            created_at: new Date().toISOString(),
+            ...updates as any,
+            is_active: true,
+            updated_at: new Date().toISOString(),
+            updated_by: 'admin'
+        };
+    }
+
+    const currentPricing = await getCurrentPricing();
+
+    const { data, error } = await client
+        .from('pricing_config')
+        .update({
+            ...updates,
+            updated_at: new Date().toISOString()
+        })
+        .eq('id', currentPricing.id)
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Error updating pricing config:', error);
+        throw new Error('UPDATE_PRICING_FAILED');
+    }
+
+    if (!data) {
+        throw new Error('UPDATE_PRICING_NO_DATA');
+    }
+
+    cachedPricing = data;
+    lastPricingFetch = Date.now();
+
+    return data;
+};
+
+export const getPricingHistory = async (limit: number = 50): Promise<PricingHistory[]> => {
+    const client = getSupabaseClient();
+    if (!client) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return [];
+    }
+
+    const { data, error } = await client
+        .from('pricing_history')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+    if (error) {
+        console.error('Error fetching pricing history:', error);
+        throw new Error('FETCH_PRICING_HISTORY_FAILED');
+    }
+
+    return data || [];
 };

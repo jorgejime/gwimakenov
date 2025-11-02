@@ -170,7 +170,8 @@
             "tabs": {
                 "bookings": "Reservas",
                 "images": "Imágenes del Hero",
-                "stats": "Estadísticas"
+                "stats": "Estadísticas",
+                "pricing": "Precios"
             },
             "filterByStatus": "Filtrar por estado:",
             "sortByDate": "Ordenar por fecha:",
@@ -264,6 +265,41 @@
             "upcomingGuests": "Huéspedes Próximos",
             "next30Days": "Próximos 30 días"
         },
+        "pricing": {
+            "title": "Gestión de Precios",
+            "save": "Guardar Cambios",
+            "reset": "Restablecer",
+            "saving": "Guardando...",
+            "successUpdate": "Precios actualizados exitosamente",
+            "fields": {
+                "pricePerNight": "Precio por Noche por Persona",
+                "serviceFee": "Tarifa de Servicio",
+                "transportAdult": "Transporte Adulto",
+                "transportChild": "Transporte Niño",
+                "insurance": "Seguro por Persona",
+                "maxCapacity": "Capacidad Máxima"
+            },
+            "descriptions": {
+                "pricePerNight": "Costo de alojamiento por persona por noche",
+                "serviceFee": "Tarifa fija por gestión y administración",
+                "insurance": "Costo de seguro por persona para el viaje",
+                "maxCapacity": "Número máximo de visitantes permitidos"
+            },
+            "preview": {
+                "title": "Vista Previa de Precio"
+            },
+            "history": {
+                "title": "Historial de Cambios",
+                "noChanges": "No hay cambios registrados",
+                "changedBy": "Modificado por"
+            },
+            "confirmModal": {
+                "title": "Confirmar Cambios de Precios",
+                "message": "¿Estás seguro de que quieres actualizar los precios? Los nuevos valores se aplicarán a todas las reservas futuras de inmediato.",
+                "confirm": "Confirmar",
+                "cancel": "Cancelar"
+            }
+        },
         "heroImages": {
             "title": "Gestión de Imágenes del Hero",
             "subtitle": "Administra las imágenes que aparecen en la portada del sitio",
@@ -349,7 +385,12 @@
             "CANCEL_BOOKING_NOT_FOUND": "No se pudo encontrar la reserva para cancelar.",
             "FETCH_ALL_BOOKINGS_FAILED": "No se pudieron cargar las reservas del panel de administración.",
             "UPDATE_STATUS_FAILED": "No se pudo actualizar el estado de la reserva.",
-            "UPDATE_STATUS_FAILED_NOT_FOUND": "No se encontró la reserva para actualizar."
+            "UPDATE_STATUS_FAILED_NOT_FOUND": "No se encontró la reserva para actualizar.",
+            "FETCH_PRICING_FAILED": "No se pudo cargar la configuración de precios.",
+            "NO_ACTIVE_PRICING_CONFIG": "No se encontró una configuración de precios activa.",
+            "UPDATE_PRICING_FAILED": "No se pudieron actualizar los precios.",
+            "UPDATE_PRICING_NO_DATA": "La actualización de precios no devolvió datos.",
+            "FETCH_PRICING_HISTORY_FAILED": "No se pudo cargar el historial de precios."
         }
     },
     "whatsapp": {

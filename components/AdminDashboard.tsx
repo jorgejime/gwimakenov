@@ -2,10 +2,11 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getAllBookings, updateBookingStatus, AdminBooking, BookingStatus } from '../services/supabaseService';
 import { getDashboardStats } from '../services/supabaseExtendedService';
 import { useTranslation } from '../contexts/LanguageContext';
-import { ArrowRightOnRectangleIcon, CheckCircleIcon, ExclamationTriangleIcon, PhotoIcon, ChartBarIcon } from '@heroicons/react/24/solid';
+import { ArrowRightOnRectangleIcon, CheckCircleIcon, ExclamationTriangleIcon, PhotoIcon, ChartBarIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
 import BookingDetailModal from './BookingDetailModal';
 import HeroImageManager from './HeroImageManager';
 import GalleryImageManager from './GalleryImageManager';
+import PricingManager from './PricingManager';
 
 const formatDate = (dateString: string, locale: string): string => {
     if (!dateString) return '';
@@ -34,7 +35,7 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [updatingId, setUpdatingId] = useState<string | null>(null);
     const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
-    const [activeView, setActiveView] = useState<'bookings' | 'images' | 'gallery' | 'stats'>('bookings');
+    const [activeView, setActiveView] = useState<'bookings' | 'images' | 'gallery' | 'stats' | 'pricing'>('bookings');
     const [stats, setStats] = useState<any>(null);
 
     const [statusFilter, setStatusFilter] = useState<BookingStatus | 'all'>('all');
@@ -144,6 +145,13 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                         <ChartBarIcon className="w-5 h-5" />
                         {t('admin.dashboard.tabs.stats')}
                     </button>
+                    <button
+                        onClick={() => setActiveView('pricing')}
+                        className={`flex items-center gap-2 px-6 py-3 font-semibold whitespace-nowrap ${activeView === 'pricing' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-600 hover:text-slate-800'}`}
+                    >
+                        <CurrencyDollarIcon className="w-5 h-5" />
+                        {t('admin.dashboard.tabs.pricing')}
+                    </button>
                 </div>
                 
                  {successMessage && (
@@ -162,6 +170,8 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                 {activeView === 'images' && <HeroImageManager />}
 
                 {activeView === 'gallery' && <GalleryImageManager />}
+
+                {activeView === 'pricing' && <PricingManager />}
 
                 {activeView === 'stats' && (
                     <div className="space-y-6">

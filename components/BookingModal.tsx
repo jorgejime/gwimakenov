@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { XMarkIcon, CheckCircleIcon, EnvelopeIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import { PRICE_PER_NIGHT, SERVICE_FEE, TRANSPORT_COST_ADULT, TRANSPORT_COST_CHILD, INSURANCE_COST_PERSON, MAX_CAPACITY, activityIcons, WHATSAPP_CONFIRMATION_NUMBER, getIDTypes, BOOKING_AVAILABILITY_MONTHS, TRIP_DURATION_NIGHTS } from '../constants';
+import { activityIcons, WHATSAPP_CONFIRMATION_NUMBER, getIDTypes, BOOKING_AVAILABILITY_MONTHS, TRIP_DURATION_NIGHTS } from '../constants';
 import type { GuestInfo, ItineraryDay } from '../types';
 import { getBookedDates, createBooking } from '../services/supabaseService';
 import { useTranslation, type TFunction } from '../contexts/LanguageContext';
+import { usePricing } from '../hooks/usePricing';
 
 const formatDate = (dateString: string, locale: string): string => {
     if (!dateString) return '';
@@ -25,9 +26,10 @@ interface CalendarProps {
     onDateSelect: (date: string) => void;
     bookingCapacity: Map<string, number>;
     isLoading: boolean;
+    maxCapacity: number;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ viewDate, setViewDate, selectedDate, onDateSelect, bookingCapacity, isLoading }) => {
+const Calendar: React.FC<CalendarProps> = ({ viewDate, setViewDate, selectedDate, onDateSelect, bookingCapacity, isLoading, maxCapacity }) => {
     const { language } = useTranslation();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -40,7 +42,7 @@ const Calendar: React.FC<CalendarProps> = ({ viewDate, setViewDate, selectedDate
 
     const year = viewDate.getUTCFullYear();
     const month = viewDate.getUTCMonth();
-    
+
     const monthName = new Intl.DateTimeFormat(language, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(viewDate);
     const weekdays = new Intl.DateTimeFormat(language, { weekday: 'narrow', timeZone: 'UTC' });
     const weekdayNames = [...Array(7).keys()].map(day => weekdays.format(new Date(Date.UTC(2021, 5, day))));
@@ -53,7 +55,7 @@ const Calendar: React.FC<CalendarProps> = ({ viewDate, setViewDate, selectedDate
         const dateStr = date.toISOString().split('T')[0];
         if (date < firstAvailableDate) return { available: false, booked: false };
         const guestsOnDate = bookingCapacity.get(dateStr) || 0;
-        const isFull = guestsOnDate >= MAX_CAPACITY;
+        const isFull = guestsOnDate >= maxCapacity;
         return { available: !isFull, booked: isFull };
     };
     
@@ -264,6 +266,7 @@ const formatItineraryForMessage = (itinerary: ItineraryDay[], t: TFunction, lang
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, setCheckIn, checkOut, setCheckOut, itinerary, isLoading, error, onGenerateItinerary, onClearItinerary }) => {
     const { t, language } = useTranslation();
+    const { pricing } = usePricing();
     const ID_TYPES = getIDTypes(t);
 
     const [step, setStep] = useState(1);
@@ -354,12 +357,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
 
     const { accommodationCost, transportCost, insuranceCost, totalPrice } = useMemo(() => {
         if (!checkIn) return { accommodationCost: 0, transportCost: 0, insuranceCost: 0, totalPrice: 0 };
-        const accommodationCost = TRIP_DURATION_NIGHTS * totalGuests * PRICE_PER_NIGHT;
-        const transportCost = (adults * TRANSPORT_COST_ADULT) + (children * TRANSPORT_COST_CHILD);
-        const insuranceCost = totalGuests * INSURANCE_COST_PERSON;
-        const totalPrice = accommodationCost + transportCost + insuranceCost + SERVICE_FEE;
+        const accommodationCost = TRIP_DURATION_NIGHTS * totalGuests * pricing.price_per_night;
+        const transportCost = (adults * pricing.transport_cost_adult) + (children * pricing.transport_cost_child);
+        const insuranceCost = totalGuests * pricing.insurance_cost_person;
+        const totalPrice = accommodationCost + transportCost + insuranceCost + pricing.service_fee;
         return { accommodationCost, transportCost, insuranceCost, totalPrice };
-    }, [checkIn, adults, children, totalGuests]);
+    }, [checkIn, adults, children, totalGuests, pricing]);
 
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -395,12 +398,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
                 `  - ${t('whatsapp.name')}: ${g.name}\n` +
                 `  - ${t('whatsapp.document')}: ${g.idType} - ${g.idNumber}`
             ).join('\n\n');
-            const priceDetails = 
+            const priceDetails =
                 `*${t('whatsapp.priceSummary')}:*\n` +
                 `${t('whatsapp.accommodation', { nights: TRIP_DURATION_NIGHTS })}: COP ${accommodationCost.toLocaleString('es-CO')}\n` +
                 `${t('whatsapp.transport')}: COP ${transportCost.toLocaleString('es-CO')}\n` +
                 `${t('whatsapp.insurance')}: COP ${insuranceCost.toLocaleString('es-CO')}\n` +
-                `${t('whatsapp.serviceFee')}: COP ${SERVICE_FEE.toLocaleString('es-CO')}\n` +
+                `${t('whatsapp.serviceFee')}: COP ${pricing.service_fee.toLocaleString('es-CO')}\n` +
                 `*Total: COP ${totalPrice.toLocaleString('es-CO')}*`;
             const itineraryDetails = formatItineraryForMessage(itinerary, t, language);
             const message = 
@@ -480,16 +483,17 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
                                                 onDateSelect={handleDateSelect}
                                                 bookingCapacity={bookingCapacity}
                                                 isLoading={isAvailabilityLoading}
+                                                maxCapacity={pricing.max_capacity}
                                             />
                                             {checkOut && <p className="text-sm text-slate-500 mt-2">{t('bookingModal.returnDate')}: {formatDate(checkOut, language)} ({t('bookingModal.stayDuration', { nights: TRIP_DURATION_NIGHTS })})</p>}
-                                             <p className="text-xs text-slate-500 mt-2 bg-slate-100 p-2 rounded-md">{t('bookingModal.availabilityNotice', { capacity: MAX_CAPACITY })}</p>
+                                             <p className="text-xs text-slate-500 mt-2 bg-slate-100 p-2 rounded-md">{t('bookingModal.availabilityNotice', { capacity: pricing.max_capacity })}</p>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-semibold text-slate-600 mb-1">{t('bookingModal.guestsLabel', { capacity: MAX_CAPACITY })}</label>
+                                            <label className="block text-sm font-semibold text-slate-600 mb-1">{t('bookingModal.guestsLabel', { capacity: pricing.max_capacity })}</label>
                                             <div className="bg-slate-50 rounded-lg p-4 space-y-4 border border-slate-300">
-                                                <GuestCounter label={t('bookingModal.adults')} count={adults} onIncrement={() => setAdults(a => a + 1)} onDecrement={() => setAdults(a => Math.max(1, a - 1))} disabled={totalGuests >= MAX_CAPACITY}/>
-                                                <GuestCounter label={t('bookingModal.children')} count={children} onIncrement={() => setChildren(c => c + 1)} onDecrement={() => setChildren(c => Math.max(0, c - 1))} disabled={totalGuests >= MAX_CAPACITY} />
+                                                <GuestCounter label={t('bookingModal.adults')} count={adults} onIncrement={() => setAdults(a => a + 1)} onDecrement={() => setAdults(a => Math.max(1, a - 1))} disabled={totalGuests >= pricing.max_capacity}/>
+                                                <GuestCounter label={t('bookingModal.children')} count={children} onIncrement={() => setChildren(c => c + 1)} onDecrement={() => setChildren(c => Math.max(0, c - 1))} disabled={totalGuests >= pricing.max_capacity} />
                                             </div>
                                         </div>
                                     </div>
@@ -533,7 +537,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, checkIn, s
                                                 <div className="flex justify-between"><span>{t('bookingModal.priceSummary.accommodation', { nights: TRIP_DURATION_NIGHTS })}</span> <span>COP {accommodationCost.toLocaleString('es-CO')}</span></div>
                                                 <div className="flex justify-between"><span>{t('bookingModal.priceSummary.transport')}</span> <span>COP {transportCost.toLocaleString('es-CO')}</span></div>
                                                 <div className="flex justify-between"><span>{t('bookingModal.priceSummary.insurance')}</span> <span>COP {insuranceCost.toLocaleString('es-CO')}</span></div>
-                                                <div className="flex justify-between"><span>{t('bookingModal.priceSummary.serviceFee')}</span> <span>COP {SERVICE_FEE.toLocaleString('es-CO')}</span></div>
+                                                <div className="flex justify-between"><span>{t('bookingModal.priceSummary.serviceFee')}</span> <span>COP {pricing.service_fee.toLocaleString('es-CO')}</span></div>
                                                 <div className="flex justify-between font-bold text-slate-800 text-lg pt-2 border-t border-slate-300 mt-2"><span>{t('bookingModal.priceSummary.total')}</span> <span>COP {totalPrice.toLocaleString('es-CO')}</span></div>
                                             </div>
                                         )}
