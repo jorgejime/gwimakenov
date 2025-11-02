@@ -515,7 +515,15 @@ export const updateGalleryImage = async (
 ): Promise<GalleryImage> => {
   const client = getSupabaseClient();
 
-  const updateData: any = { ...updates };
+  const allowedFields = ['url', 'title', 'alt_text', 'caption', 'likes', 'comments', 'order_position', 'is_active'];
+  const updateData: any = {};
+
+  allowedFields.forEach(field => {
+    if (field in updates) {
+      updateData[field] = (updates as any)[field];
+    }
+  });
+
   updateData.updated_at = new Date().toISOString();
 
   const { data, error } = await client
@@ -528,6 +536,10 @@ export const updateGalleryImage = async (
   if (error) {
     console.error('Error updating gallery image:', error);
     throw new Error('UPDATE_GALLERY_IMAGE_FAILED');
+  }
+
+  if (!data) {
+    throw new Error('UPDATE_GALLERY_IMAGE_NOT_FOUND');
   }
 
   return data as GalleryImage;
