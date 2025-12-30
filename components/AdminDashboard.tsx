@@ -27,7 +27,13 @@ const getStatusInfo = (status: BookingStatus, t: (key: string) => string) => {
     }
 };
 
-const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
+interface AdminDashboardProps {
+    onLogout: () => void;
+    userId: string | null;
+    userRole: string | null;
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout, userId, userRole }) => {
     const { t, language } = useTranslation();
     const [bookings, setBookings] = useState<AdminBooking[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -77,12 +83,25 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
         setSuccessMessage(null);
         try {
             const updatedBooking = await updateBookingStatus(id, status);
-            setBookings(currentBookings => 
+            setBookings(currentBookings =>
                 currentBookings.map(b => b.id === id ? updatedBooking : b)
             );
             const statusText = getStatusInfo(status, t).text.toLowerCase();
             setSuccessMessage(t('admin.dashboard.successUpdate', { status: statusText }));
             setTimeout(() => setSuccessMessage(null), 4000);
+
+            // Registrar en auditoría
+            if (userId) {
+                try {
+                    const { logAudit } = await import('../services/authService');
+                    await logAudit('update_booking_status', 'booking', id, {
+                        new_status: status,
+                        user_role: userRole
+                    });
+                } catch (auditError) {
+                    console.error('Error logging audit:', auditError);
+                }
+            }
         } catch (err) {
             const errorMessage = err instanceof Error ? t(`errors.supabase.${err.message}`) : t('errors.unknown');
             setError(errorMessage);

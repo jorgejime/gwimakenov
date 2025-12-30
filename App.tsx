@@ -44,6 +44,8 @@ const App: React.FC = () => {
     const [view, setView] = useState('home');
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+    const [adminUserId, setAdminUserId] = useState<string | null>(null);
+    const [adminRole, setAdminRole] = useState<string | null>(null);
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [itinerary, setItinerary] = useState<ItineraryDay[] | null>(null);
@@ -51,7 +53,6 @@ const App: React.FC = () => {
     const [itineraryError, setItineraryError] = useState<string | null>(null);
 
     const testimonials = getTestimonials(t);
-    const hasOpenAIKey = !!import.meta.env.VITE_OPENAI_API_KEY;
 
     const handleNavClick = (sectionId: string) => {
         const scrollToAction = () => {
@@ -95,10 +96,6 @@ const App: React.FC = () => {
     }, []);
 
     const handleOpenBookingModal = () => {
-        if (!hasOpenAIKey) {
-            setItineraryError(t('errors.apiKeyMissing') || 'API Key is not configured');
-            return;
-        }
         setIsBookingModalOpen(true);
     };
 
@@ -114,19 +111,34 @@ const App: React.FC = () => {
         window.scrollTo(0, 0);
     };
     
-    const handleLogout = () => {
-        setIsAdminAuthenticated(false);
-        setView('home');
-    }
+    const handleLogout = async () => {
+        try {
+            const { signOut } = await import('./services/authService');
+            await signOut();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            setIsAdminAuthenticated(false);
+            setAdminUserId(null);
+            setAdminRole(null);
+            setView('home');
+        }
+    };
+
+    const handleLoginSuccess = (userId: string, role: string) => {
+        setIsAdminAuthenticated(true);
+        setAdminUserId(userId);
+        setAdminRole(role);
+    };
 
     const renderView = () => {
         switch (view) {
             case 'manage':
                 return <ManageBooking onBackToHome={() => handleNavigate('home')} />;
             case 'admin':
-                return isAdminAuthenticated 
-                    ? <AdminDashboard onLogout={handleLogout} /> 
-                    : <AdminLogin onLoginSuccess={() => setIsAdminAuthenticated(true)} onBackToHome={() => handleNavigate('home')} />;
+                return isAdminAuthenticated
+                    ? <AdminDashboard onLogout={handleLogout} userId={adminUserId} userRole={adminRole} />
+                    : <AdminLogin onLoginSuccess={handleLoginSuccess} onBackToHome={() => handleNavigate('home')} />;
             case 'home':
             default:
                 return (
