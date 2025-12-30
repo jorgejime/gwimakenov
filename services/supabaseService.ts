@@ -195,7 +195,13 @@ const getSupabaseClient = (): SupabaseClient<Database> | null => {
     }
 
     isDemoMode = false;
-    supabase = createClient<Database>(supabaseUrl, supabaseKey);
+    supabase = createClient<Database>(supabaseUrl, supabaseKey, {
+        auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true
+        }
+    });
     return supabase;
 };
 

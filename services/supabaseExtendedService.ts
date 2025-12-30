@@ -99,7 +99,13 @@ const getSupabaseClient = (): SupabaseClient => {
     throw new Error('SUPABASE_NOT_CONFIGURED');
   }
 
-  supabase = createClient(supabaseUrl, supabaseKey);
+  supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  });
   return supabase;
 };
 
@@ -160,6 +166,12 @@ export const updateBooking = async (
 export const deleteBooking = async (id: string): Promise<void> => {
   const client = getSupabaseClient();
 
+  const { data: { user } } = await client.auth.getUser();
+
+  if (!user) {
+    throw new Error('USER_NOT_AUTHENTICATED');
+  }
+
   const { error } = await client
     .from('bookings')
     .delete()
@@ -167,6 +179,11 @@ export const deleteBooking = async (id: string): Promise<void> => {
 
   if (error) {
     console.error('Error deleting booking:', error);
+
+    if (error.code === '42501' || error.message.includes('permission denied') || error.message.includes('policy')) {
+      throw new Error('INSUFFICIENT_PERMISSIONS');
+    }
+
     throw new Error('DELETE_BOOKING_FAILED');
   }
 };

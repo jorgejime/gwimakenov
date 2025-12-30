@@ -393,7 +393,10 @@
             "NO_ACTIVE_PRICING_CONFIG": "No se encontró una configuración de precios activa.",
             "UPDATE_PRICING_FAILED": "No se pudieron actualizar los precios.",
             "UPDATE_PRICING_NO_DATA": "La actualización de precios no devolvió datos.",
-            "FETCH_PRICING_HISTORY_FAILED": "No se pudo cargar el historial de precios."
+            "FETCH_PRICING_HISTORY_FAILED": "No se pudo cargar el historial de precios.",
+            "DELETE_BOOKING_FAILED": "No se pudo eliminar la reserva. Por favor, intenta de nuevo.",
+            "USER_NOT_AUTHENTICATED": "Debes estar autenticado para realizar esta acción.",
+            "INSUFFICIENT_PERMISSIONS": "No tienes permisos suficientes para eliminar reservas. Solo los administradores pueden realizar esta acción."
         }
     },
     "whatsapp": {

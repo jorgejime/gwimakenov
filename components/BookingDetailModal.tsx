@@ -60,6 +60,7 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({ bookingId, onCl
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedBooking, setEditedBooking] = useState<Partial<BookingComplete>>({});
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     loadBookingData();
@@ -136,12 +137,16 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({ bookingId, onCl
     if (!window.confirm(t('admin.bookingDetail.confirmDelete'))) return;
     if (!window.confirm(t('admin.bookingDetail.confirmDeleteFinal'))) return;
 
+    setDeleteError(null);
+
     try {
       await deleteBooking(bookingId);
       onBookingUpdated();
       onClose();
     } catch (error) {
       console.error('Error deleting booking:', error);
+      const errorMessage = error instanceof Error ? error.message : 'DELETE_BOOKING_FAILED';
+      setDeleteError(t(`errors.supabase.${errorMessage}`));
     }
   };
 
@@ -485,17 +490,24 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({ bookingId, onCl
           )}
         </div>
 
-        <div className="border-t border-slate-200 p-6 bg-slate-50 rounded-b-2xl flex justify-between items-center">
-          <button
-            onClick={handleDeleteBooking}
-            className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-          >
-            <TrashIcon className="w-4 h-4" />
-            {t('admin.bookingDetail.deleteBooking')}
-          </button>
-          <button onClick={onClose} className="bg-slate-200 text-slate-700 px-6 py-2 rounded-lg hover:bg-slate-300 font-semibold">
-            {t('common.close')}
-          </button>
+        <div className="border-t border-slate-200 p-6 bg-slate-50 rounded-b-2xl">
+          {deleteError && (
+            <div className="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg">
+              <p className="font-semibold">{deleteError}</p>
+            </div>
+          )}
+          <div className="flex justify-between items-center">
+            <button
+              onClick={handleDeleteBooking}
+              className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+            >
+              <TrashIcon className="w-4 h-4" />
+              {t('admin.bookingDetail.deleteBooking')}
+            </button>
+            <button onClick={onClose} className="bg-slate-200 text-slate-700 px-6 py-2 rounded-lg hover:bg-slate-300 font-semibold">
+              {t('common.close')}
+            </button>
+          </div>
         </div>
       </div>
     </div>

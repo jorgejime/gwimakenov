@@ -251,7 +251,10 @@
             "NO_ACTIVE_PRICING_CONFIG": "No active pricing configuration found.",
             "UPDATE_PRICING_FAILED": "Could not update pricing.",
             "UPDATE_PRICING_NO_DATA": "Pricing update did not return data.",
-            "FETCH_PRICING_HISTORY_FAILED": "Could not load pricing history."
+            "FETCH_PRICING_HISTORY_FAILED": "Could not load pricing history.",
+            "DELETE_BOOKING_FAILED": "Could not delete the booking. Please try again.",
+            "USER_NOT_AUTHENTICATED": "You must be authenticated to perform this action.",
+            "INSUFFICIENT_PERMISSIONS": "You do not have sufficient permissions to delete bookings. Only administrators can perform this action."
         }
     },
     "whatsapp": {
