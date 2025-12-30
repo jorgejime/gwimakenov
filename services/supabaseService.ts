@@ -270,22 +270,30 @@ export const createBooking = async (bookingData: BookingData): Promise<{ id: str
         return { id: `demo-booking-${Date.now()}` };
     }
 
+    console.log('Attempting to create booking with data:', bookingData);
+
     const { data, error } = await client
         .from('bookings')
         .insert([{ ...bookingData, status: 'pending' }])
         .select('id')
-        .single();
+        .maybeSingle();
 
     if (error) {
-        console.error('Error creating booking:', error);
-        if (error.code === '23505') { // Postgres code for 'unique_violation'
+        console.error('Error creating booking - Full error details:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+        });
+        if (error.code === '23505') {
              throw new Error('UNIQUE_VIOLATION');
         }
         throw new Error('CREATE_BOOKING_FAILED');
     }
-    
+
     if (!data) throw new Error('CREATE_BOOKING_FAILED_NO_ID');
 
+    console.log('Booking created successfully:', data);
     return data;
 };
 
