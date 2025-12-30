@@ -1,5 +1,3 @@
-import { createClient } from 'npm:@supabase/supabase-js@2.45.0';
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -18,45 +16,39 @@ Deno.serve(async (req: Request) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    });
-
     const adminEmail = 'admin@gwimake.com';
     const adminPassword = '@Gwimake2026';
 
-    // Intentar obtener el usuario por email usando Admin API
-    const { data: { users }, error: listError } = await supabaseAdmin.auth.admin.listUsers();
-    
-    if (listError) {
-      throw new Error(`Error listando usuarios: ${listError.message}`);
-    }
+    // Crear usuario usando la Admin API de Supabase
+    const createResponse = await fetch(`${supabaseUrl}/auth/v1/admin/users`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseServiceKey,
+        'Authorization': `Bearer ${supabaseServiceKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: adminEmail,
+        password: adminPassword,
+        email_confirm: true,
+        user_metadata: {
+          full_name: 'Administrador Gwimake'
+        },
+        app_metadata: {
+          role: 'admin'
+        }
+      })
+    });
 
-    const existingUser = users.find(u => u.email === adminEmail);
-
-    if (existingUser) {
-      // Actualizar la contraseña del usuario existente
-      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
-        existingUser.id,
-        { password: adminPassword }
-      );
-
-      if (updateError) {
-        throw new Error(`Error actualizando contraseña: ${updateError.message}`);
-      }
-
+    if (!createResponse.ok) {
+      const error = await createResponse.text();
       return new Response(
         JSON.stringify({ 
-          success: true, 
-          message: 'Contraseña actualizada exitosamente',
-          userId: existingUser.id,
-          email: adminEmail
+          success: false, 
+          error: `Error creando usuario: ${error}`
         }),
         {
-          status: 200,
+          status: createResponse.status,
           headers: {
             ...corsHeaders,
             'Content-Type': 'application/json',
@@ -65,40 +57,36 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Si no existe, crear el usuario
-    const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: adminEmail,
-      password: adminPassword,
-      email_confirm: true,
-      user_metadata: {
-        full_name: 'Administrador Gwimake'
-      }
-    });
+    const newUser = await createResponse.json();
 
-    if (createError) {
-      throw new Error(`Error creando usuario: ${createError.message}`);
-    }
-
-    // Crear el perfil de usuario (usando service role que bypasea RLS)
-    const { error: profileError } = await supabaseAdmin
-      .from('user_profiles')
-      .insert({
-        id: newUser.user.id,
+    // Crear el perfil de usuario
+    const profileResponse = await fetch(`${supabaseUrl}/rest/v1/user_profiles`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseServiceKey,
+        'Authorization': `Bearer ${supabaseServiceKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify({
+        id: newUser.id,
         email: adminEmail,
         full_name: 'Administrador Gwimake',
         role: 'admin',
         is_active: true
-      });
+      })
+    });
 
-    if (profileError && profileError.code !== '23505') {
-      console.error('Profile error (non-fatal):', profileError);
+    if (!profileResponse.ok) {
+      const error = await profileResponse.text();
+      console.error('Error creando perfil:', error);
     }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: 'Usuario administrador creado exitosamente',
-        userId: newUser.user.id,
+        userId: newUser.id,
         email: adminEmail
       }),
       {
@@ -114,8 +102,7 @@ Deno.serve(async (req: Request) => {
     return new Response(
       JSON.stringify({ 
         success: false, 
-        error: error.message || 'Error desconocido',
-        stack: error.stack
+        error: error.message || 'Error desconocido'
       }),
       {
         status: 500,
